@@ -1,5 +1,40 @@
-<div fxFlexFill fxLayout="column" fxLayoutAlign="center center">
-  <p>
-    home works!
-  </p>
+<div fxFlexFill
+     class="general-container"
+     fxLayout="column">
+
+  <div fxLayout="column"
+       fxFlex
+       fxLayoutAlign="center center">
+    <img src="../../../assets/img/defaultProfilePicture.png"
+         alt="">
+  </div>
+
+  <div>
+    <div fxLayout="row">
+      <mat-form-field fxFlex
+                      *ngIf="showInput"
+                      appearance="outline">
+        <mat-label>¿Que esta pasando?</mat-label>
+        <input matInput
+               placeholder="Me despidieron del trabajo">
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row"
+         fxLayoutAlign="center center"
+         class="button-container">
+      <button mat-raised-button
+              (click)="renderInput()"
+              color="primary">Pedir consejo</button>
+    </div>
+    <div fxLayout="row"
+         fxLayoutAlign="center center"
+         class="button-container">
+
+      <button fxLayout="row"
+              mat-raised-button
+              color="primary">Quiero aconsejar</button>
+    </div>
+  </div>
 </div>
