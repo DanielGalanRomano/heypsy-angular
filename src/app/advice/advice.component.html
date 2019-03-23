@@ -1,5 +1,49 @@
-<div fxFlexFill fxLayout="column" fxLayoutAlign="center center">
-  <p>
-    advice works!
-  </p>
+<div fxFlexFill class="general-container" fxLayout="column">
+
+  <div fxLayout="column" fxFlex="20" fxLayoutAlign="center start">
+    <img fxFlex="40" src="../../assets/img/logo-lg.png" alt="">
+  </div>
+
+  <div fxLayout="column" fxFlex>
+    <mat-card class="card-container" fxLayout="row" (click)="goToAdviceForm()">
+      <span class="user-name">Andres:</span>
+      <span>No tengo amigos</span>
+      <div fxLayout="row" fxFlex fxLayoutAlign="end center">
+        <i class="material-icons">
+          reply
+        </i>
+      </div>
+    </mat-card>
+    <mat-card class="card-container" fxLayout="row" (click)="goToAdviceForm()">
+      <span class="user-name">Andres:</span>
+      <span>No tengo amigos</span>
+      <div fxLayout="row" fxFlex fxLayoutAlign="end center">
+        <i class="material-icons">
+          reply
+        </i>
+      </div>
+    </mat-card>
+    <mat-card class="card-container" fxLayout="row" (click)="goToAdviceForm()">
+      <span class="user-name">Andres:</span>
+      <span>No tengo amigos</span>
+      <div fxLayout="row" fxFlex fxLayoutAlign="end center">
+        <i class="material-icons">
+          reply
+        </i>
+      </div>
+    </mat-card>
+    <mat-card class="card-container" fxLayout="row" (click)="goToAdviceForm()">
+      <span class="user-name">Andres:</span>
+      <span>No tengo amigos</span>
+      <div fxLayout="row" fxFlex fxLayoutAlign="end center">
+        <i class="material-icons">
+          reply
+        </i>
+      </div>
+    </mat-card>
+  </div>
+
+  <div fxFlex="10" fxLayout="row" fxLayoutAlign="center center" class="button-container">
+    <button mat-raised-button color="primary" (click)="goToHome()">Volver al home</button>
+  </div>
 </div>

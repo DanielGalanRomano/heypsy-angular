@@ -1,5 +1,42 @@
-<div fxFlexFill fxLayout="column" fxLayoutAlign="center center">
-  <p>
-    advice-form works!
-  </p>
+<div fxFlexFill class="general-container" fxLayout="column">
+
+  <div fxLayout="column" fxFlex="20" fxLayoutAlign="center start">
+    <img fxFlex="40" src="../../assets/img/logo-lg.png" alt="">
+  </div>
+
+  <div>
+    <mat-card class="info-card-container">
+      <mat-card-header>
+        <mat-card-title>Andres necesita ayuda con:</mat-card-title>
+        <mat-card-subtitle>No tengo amigos</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+
+    <form fxLayout="column">
+      <div fxLayout="row" fxFlex>
+        <mat-form-field fxFlex appearance="outline">
+          <mat-label>¿Como te llamas?</mat-label>
+          <input matInput placeholder="Ingresa solo tu nombre">
+          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxFlex>
+        <mat-form-field fxFlex class="example-full-width">
+          <input matInput #message maxlength="256" placeholder="Escribe algo genuino">
+          <mat-hint align="start"><strong>Tu consejo es 100% anonimo</strong> </mat-hint>
+          <!-- <mat-hint align="end">{{message.value.length}} / 256</mat-hint> -->
+          <mat-hint align="end">2 / 256</mat-hint>
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+
+  <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between center"></div>
+  <div fxLayout="row" fxLayoutAlign="center center" class="button-container">
+    <button mat-raised-button color="primary">Enviar consejo</button>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center center" class="button-container">
+    <button mat-raised-button color="primary" (click)="goToAdviceList()">Volver a la lista</button>
+  </div>
 </div>

@@ -1,5 +1,30 @@
-<div fxFlexFill fxLayout="column" fxLayoutAlign="center center">
-  <p>
-    terms-and-conditions works!
-  </p>
+<div fxFlexFill class="general-container" fxLayout="column">
+
+  <div fxLayout="column" fxFlex fxLayoutAlign="center start">
+    <img fxFlex="50" src="../../assets/img/logo-lg.png" alt="">
+  </div>
+
+  <div class="">
+    <h5 class="mat-title">
+      Términos y condiciones
+    </h5>
+    <p>
+
+      <b>Heypsy!</b> -el fabricante y todos sus colaboradores- no se responsabilizan por el mal uso de la app,
+      tampoco por las consecuencias, daños o perjuicio que se deriven de compartir información privada y/o que
+      los usuarios tomen como ayuda absoluta los consejos de otros usuarios.<br><br>
+
+      <b>Heypsy!</b> recomienda a todos sus usuarios no compartir ningun tipo de información privada ya que la
+      app es de uso anónimo y en ningún caso se pide logueo alguno. <br><br>
+
+      <b>Heypsy!</b> es una herramienta web/mobile que permite a sus usuarios poder pedir algun consejo temporal
+      y anónimo para lidiar con un disgusto temporal, para poder brindar una herramienta a quienes, por
+      verguenza, no comentan ciertos problemas con su entorno cercano.<br>
+
+    </p>
+
+    <div fxLayout="row" fxLayoutAlign="center center" class="button-container">
+      <button mat-raised-button color="primary" (click)="acceptTermsAndConditions()">Acepto los términos</button>
+    </div>
+  </div>
 </div>

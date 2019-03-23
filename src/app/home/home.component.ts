@@ -1,30 +1,31 @@
 import { Component, OnInit } from '@angular/core';
+import { fadeAnimation } from '../app-transition';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
+  animations: [
+    fadeAnimation
+  ]
 })
 export class HomeComponent implements OnInit {
 
-  /**
-   * Flat to show/hide principal input.
-   * @type {boolean}
-   * @memberof HomeComponent
-   */
-  public showInput: boolean = false;
-
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
-  /**
-   * Show input.
-   * @memberof HomeComponent
-   */
-  public renderInput() {
-    this.showInput = true;
+  public goToProblemForm() {
+    console.log(`${HomeComponent.name}::goToProblemForm`);
+
+    this.router.navigate(['/problem-form']);
   }
 
+  public goToAdvice() {
+    console.log(`${HomeComponent.name}::goToAdvice`);
+
+    this.router.navigate(['/advice']);
+  }
 }
