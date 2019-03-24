@@ -8,7 +8,7 @@
     <div fxLayout="row">
       <mat-form-field fxFlex appearance="outline">
         <mat-label>¿Que esta pasando?</mat-label>
-        <input matInput placeholder="Me despidieron del trabajo">
+        <input name="problem" [(ngModel)]="problem" matInput placeholder="Me despidieron del trabajo">
         <mat-icon matSuffix>record_voice_over</mat-icon>
         <mat-hint>Tu pedido es 100% anonimo</mat-hint>
       </mat-form-field>
@@ -16,20 +16,20 @@
     <div fxLayout="row">
       <mat-form-field fxFlex appearance="outline">
         <mat-label>¿Como te llamas?</mat-label>
-        <input matInput placeholder="Ingresa solo tu nombre">
+        <input name="username" [(ngModel)]="username" matInput placeholder="Ingresa solo tu nombre">
         <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
       </mat-form-field>
     </div>
 
     <div fxLayout="row" fxLayoutAlign="center center" class="button-container">
-      <button mat-raised-button color="primary">Pedir consejos anonimos</button>
+      <button mat-raised-button color="primary" (click)="sendProblem()">Pedir consejos anonimos</button>
     </div>
 
     <div fxLayout="row" fxLayoutAlign="start center">
-      <mat-checkbox>Tambien quiero aconsejar!</mat-checkbox>
+      <mat-checkbox [(ngModel)]="adviceOption">Tambien quiero aconsejar!</mat-checkbox>
     </div>
     <div fxLayout="row" fxLayoutAlign="start center">
-      <mat-checkbox>
+      <mat-checkbox [(ngModel)]="termsAndConditionsOption">
         <u (click)="goToTermsAndConditions()">Acepto terminos y condiciones!</u>
       </mat-checkbox>
     </div>

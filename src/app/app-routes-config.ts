@@ -17,7 +17,7 @@ export const routes: Routes = [
         component: AdviceComponent
     },
     {
-        path: 'advice-form',
+        path: 'advice-form/:id',
         component: AdviceFormComponent
     },
     {

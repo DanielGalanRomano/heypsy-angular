@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { fadeAnimation } from 'src/app/app-transition';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { ManagerService } from 'src/app/manager.service';
+import { Problem } from 'src/app/entities/problem';
 
 @Component({
   selector: 'app-advice-form',
@@ -10,15 +13,48 @@ import { Router } from '@angular/router';
     fadeAnimation
   ]
 })
-export class AdviceFormComponent implements OnInit {
+export class AdviceFormComponent implements OnInit, OnDestroy {
 
-  constructor(private router: Router) { }
+  public problem: Problem;
+
+  public message: string = '';
+  public username: string = '';
+
+  /**
+   * subscription reference.
+   */
+  private subscription: Subscription;
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private manager: ManagerService) { }
 
   ngOnInit() {
+
+    this.subscription = this.route.params
+      .subscribe(params => {
+        const id = +params['id'];
+        if (id) {
+          this.problem = this.manager.getProblemById(id)[0];
+        }
+      });
+  }
+
+  ngOnDestroy() {
+    // Unsubscribe.
+    this.subscription.unsubscribe();
+  }
+
+  /**
+   * sendMessage
+   */
+  public sendMessage() {
+    console.log(`${AdviceFormComponent.name}::sendMessage username %o , message %o`, this.username, this.message);
   }
 
   public goToAdviceList() {
+    console.log(`${AdviceFormComponent.name}::goToAdviceList`);
     this.router.navigate(['/advice']);
   }
-
 }

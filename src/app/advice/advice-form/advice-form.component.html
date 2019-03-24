@@ -7,8 +7,8 @@
   <div>
     <mat-card class="info-card-container">
       <mat-card-header>
-        <mat-card-title>Andres necesita ayuda con:</mat-card-title>
-        <mat-card-subtitle>No tengo amigos</mat-card-subtitle>
+        <mat-card-title>{{problem.user}} necesita ayuda con:</mat-card-title>
+        <mat-card-subtitle>{{problem.text}}</mat-card-subtitle>
       </mat-card-header>
     </mat-card>
 
@@ -16,14 +16,14 @@
       <div fxLayout="row" fxFlex>
         <mat-form-field fxFlex appearance="outline">
           <mat-label>¿Como te llamas?</mat-label>
-          <input matInput placeholder="Ingresa solo tu nombre">
+          <input name="username" [(ngModel)]="username" matInput placeholder="Ingresa solo tu nombre">
           <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
         </mat-form-field>
       </div>
 
       <div fxLayout="row" fxFlex>
         <mat-form-field fxFlex class="example-full-width">
-          <input matInput #message maxlength="256" placeholder="Escribe algo genuino">
+          <input matInput name="message" [(ngModel)]="message" maxlength="256" placeholder="Escribe algo genuino">
           <mat-hint align="start"><strong>Tu consejo es 100% anonimo</strong> </mat-hint>
           <!-- <mat-hint align="end">{{message.value.length}} / 256</mat-hint> -->
           <mat-hint align="end">2 / 256</mat-hint>
@@ -34,7 +34,7 @@
 
   <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between center"></div>
   <div fxLayout="row" fxLayoutAlign="center center" class="button-container">
-    <button mat-raised-button color="primary">Enviar consejo</button>
+    <button mat-raised-button color="primary" (click)="sendMessage()">Enviar consejo</button>
   </div>
   <div fxLayout="row" fxLayoutAlign="center center" class="button-container">
     <button mat-raised-button color="primary" (click)="goToAdviceList()">Volver a la lista</button>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { fadeAnimation } from '../app-transition';
 import { Router } from '@angular/router';
+import { ManagerService } from '../manager.service';
+import { Problem } from '../entities/problem';
 
 @Component({
   selector: 'app-advice',
@@ -12,17 +14,23 @@ import { Router } from '@angular/router';
 })
 export class AdviceComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  public problemList: Problem[] = [];
+
+  constructor(
+    private router: Router,
+    private manager: ManagerService) { }
 
   ngOnInit() {
+    this.problemList = this.manager.getProblemList();
   }
 
   public goToHome() {
     this.router.navigate(['/home']);
   }
 
-  public goToAdviceForm() {
-    this.router.navigate(['/advice-form']);
+  public goToAdviceForm(id: number) {
+    console.log(`${AdviceComponent.name}::goToAdviceForm`);
+    this.router.navigate([`/advice-form/${id}`]);
   }
 
 }

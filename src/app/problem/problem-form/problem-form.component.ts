@@ -12,9 +12,22 @@ import { Router } from '@angular/router';
 })
 export class ProblemFormComponent implements OnInit {
 
+  public problem: string = '';
+  public username: string = '';
+  public adviceOption: boolean = false;
+  public termsAndConditionsOption: boolean = false;
+
   constructor(private router: Router) { }
 
   ngOnInit() {
+  }
+
+  /**
+   * sendProblem
+   */
+  public sendProblem() {
+    console.log(`${ProblemFormComponent.name}::sendProblem username %o , message %o`, this.username, this.problem);
+
   }
 
   /**
