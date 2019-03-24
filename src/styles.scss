@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+$color-primary:#ef3a5d;
 
 html,
 body {
@@ -18,8 +19,13 @@ body {
   padding: 16px;
 }
 
-router-outlet ~ * {
+router-outlet~* {
   position: absolute;
   height: 100%;
   width: 100%;
+}
+
+.primary {
+  background-color: $color-primary !important;
+  color: white !important;
 }

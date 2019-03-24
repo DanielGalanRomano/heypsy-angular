@@ -15,6 +15,9 @@ import { Problem } from '../entities/problem';
 export class AdviceComponent implements OnInit {
 
   public problemList: Problem[] = [];
+  public future;
+  public $counter;
+  public diff;
 
   constructor(
     private router: Router,
@@ -22,6 +25,7 @@ export class AdviceComponent implements OnInit {
 
   ngOnInit() {
     this.problemList = this.manager.getProblemList();
+
   }
 
   public goToHome() {
@@ -32,5 +36,4 @@ export class AdviceComponent implements OnInit {
     console.log(`${AdviceComponent.name}::goToAdviceForm`);
     this.router.navigate([`/advice-form/${id}`]);
   }
-
 }

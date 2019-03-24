@@ -1,8 +1,32 @@
+$color-primary:#ef3a5d;
+
 .card-container {
   margin: 8px !important;
+  padding: 0 !important;
+}
+
+.virtual-viewport {
+  height: 400px;
+}
+
+.virtual-item {
+  padding: 1px, 0px;
+}
+
+.info-container {
+  padding: 8px 8px 8px 8px;
+}
+
+.time-label {
+  font-size: 12px;
+  padding-right: 8px;
 }
 
 .user-name {
   font-weight: bold;
   padding-right: 8px;
+}
+
+.reply-icon {
+  color: $color-primary !important;
 }

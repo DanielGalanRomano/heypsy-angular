@@ -5,15 +5,35 @@
   </div>
 
   <div fxLayout="column" fxFlex>
-    <mat-card class="card-container" fxLayout="row" (click)="goToAdviceForm(problem.id)" *ngFor="let problem of this.problemList">
-      <span class="user-name">{{problem.user}}:</span>
-      <span>{{problem.text}}</span>
-      <div fxLayout="row" fxFlex fxLayoutAlign="end center">
-        <i class="material-icons">
-          reply
-        </i>
-      </div>
-    </mat-card>
+    <cdk-virtual-scroll-viewport *ngIf="this.problemList.length > 0" itemSize="50" class="virtual-viewport">
+      <mat-card class="card-container virtual-item" fxLayout="row" (click)="goToAdviceForm(problem.id)"
+        *cdkVirtualFor="let problem of this.problemList">
+        <div fxLayout="column" fxFlex>
+          <div fxLayout="row" fxFlex class="info-container">
+            <span class="user-name">{{problem.requester.name}}:</span>
+            <span>{{problem.text}}</span>
+            <div fxLayout="row" fxFlex fxLayoutAlign="end center">
+              <i class="material-icons reply-icon">
+                reply
+              </i>
+            </div>
+          </div>
+          <div fxLayout="column">
+            <div fxLayout="row" fxFlex fxLayoutAlign="end center" class="time-label">
+              <span>{{problem.scheduleDate | date}}</span>
+            </div>
+            <div fxLayout="row" fxFlex>
+              <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+            </div>
+
+          </div>
+        </div>
+      </mat-card>
+
+    </cdk-virtual-scroll-viewport>
+    <div *ngIf="this.problemList.length <= 0">
+      <span>Por suerte no existen casos que atender! </span>
+    </div>
   </div>
 
   <div fxFlex="10" fxLayout="row" fxLayoutAlign="center center" class="button-container">

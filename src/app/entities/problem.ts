@@ -1,6 +1,10 @@
+import { Person } from './person';
+
 export interface Problem {
     id: number;
     text: string;
-    user: string;
+    requester: Person;
+    assisted: boolean;
     scheduleDate: Date;
+    adviser?: Person;
 }

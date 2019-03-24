@@ -1,6 +1,6 @@
 <div fxFlexFill class="general-container" fxLayout="column">
 
-  <div fxLayout="column" fxFlex="80" fxLayoutAlign="start center">
+  <div fxLayout="column" fxFlex="70" fxLayoutAlign="start center">
     <img fxFlex="80" src="../../assets/img/woman.png" alt="">
   </div>
 
@@ -14,7 +14,7 @@
     </div>
 
     <div fxLayout="row" fxLayoutAlign="center center" class="button-container">
-      <button mat-raised-button (click)="goToProblemForm()" color="primary">
+      <button fxFlex="60" fxLayout="row" mat-raised-button (click)="goToProblemForm()" color="primary">
         <i class="material-icons">
           help
         </i>
@@ -22,7 +22,7 @@
     </div>
 
     <div fxLayout="row" fxLayoutAlign="center center" class="button-container" (click)="goToAdvice()">
-      <button fxLayout="row" mat-raised-button color="primary">
+      <button fxFlex="60" fxLayout="row" mat-raised-button color="primary">
         <i class="material-icons">
           thumbs_up_down
         </i>
