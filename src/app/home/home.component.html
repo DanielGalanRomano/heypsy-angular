@@ -1,18 +1,10 @@
 <div fxFlexFill class="general-container" fxLayout="column">
 
   <div fxLayout="column" fxFlex="70" fxLayoutAlign="start center">
-    <img fxFlex="80" src="../../assets/img/woman.png" alt="">
+    <img fxFlex="80" src="assets/img/woman.png" alt="">
   </div>
 
   <div>
-    <div fxLayout="row">
-      <mat-form-field fxFlex appearance="outline">
-        <mat-label>¿Que esta pasando?</mat-label>
-        <input matInput placeholder="Me despidieron del trabajo">
-        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-      </mat-form-field>
-    </div>
-
     <div fxLayout="row" fxLayoutAlign="center center" class="button-container">
       <button fxFlex="60" fxLayout="row" mat-raised-button (click)="goToProblemForm()" color="primary">
         <i class="material-icons">
