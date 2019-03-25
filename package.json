@@ -1,6 +1,9 @@
 {
   "name": "heypsy-app",
-  "version": "0.0.0",
+  "displayName": "HeyPsyApp",
+  "version": "1.0.0",
+  "description": "A sample Apache Cordova application that responds to the deviceready event.",
+  "main": "index.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -9,6 +12,11 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
+  "author": "Apache Cordova Team",
+  "license": "Apache-2.0",
+  "keywords": [
+    "ecosystem:cordova"
+  ],
   "private": true,
   "dependencies": {
     "@angular/animations": "~7.1.0",
@@ -22,6 +30,8 @@
     "@angular/platform-browser": "~7.1.0",
     "@angular/platform-browser-dynamic": "~7.1.0",
     "@angular/router": "~7.1.0",
+    "cordova-android": "^8.0.0",
+    "cordova-plugin-whitelist": "^1.3.3",
     "core-js": "^2.5.4",
     "hammerjs": "^2.0.8",
     "rxjs": "~6.3.3",
@@ -48,5 +58,13 @@
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
     "typescript": "~3.1.6"
+  },
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-whitelist": {}
+    },
+    "platforms": [
+      "android"
+    ]
   }
 }
