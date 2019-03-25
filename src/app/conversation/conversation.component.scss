@@ -1,0 +1,30 @@
+.card-container {
+  margin: 8px !important;
+  border-radius: 5px;
+  padding: 0 !important;
+}
+
+.virtual-viewport {
+  height: 400px;
+}
+
+.virtual-item {
+  padding: 1px, 0px;
+}
+
+.card-title-section {
+  padding: 8px;
+  background-color: lightgrey;
+  border-radius: 8px 8px 0 0;
+}
+
+.card-content-section {
+  padding: 8px;
+  background-color: #e1e1e1;
+  //   border-radius: 0 0 8px 8px;
+}
+
+.advisor-label {
+  font-weight: bold;
+  padding-right: 8px;
+}

@@ -51,6 +51,11 @@ export class AdviceFormComponent implements OnInit, OnDestroy {
    */
   public sendMessage() {
     console.log(`${AdviceFormComponent.name}::sendMessage username %o , message %o`, this.username, this.message);
+    const advisor = {
+      name: this.username
+    };
+
+    this.manager.setAdvice(this.message, advisor, this.problem.requester);
   }
 
   public goToAdviceList() {

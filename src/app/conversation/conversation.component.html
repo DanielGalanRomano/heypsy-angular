@@ -1,5 +1,31 @@
-<div fxFlexFill fxLayout="column" fxLayoutAlign="center center">
-  <p>
-    conversation works!
-  </p>
+<div fxFlexFill class="general-container" fxLayout="column">
+
+  <div fxLayout="column" fxFlex="20" fxLayoutAlign="center start">
+    <img fxFlex="40" src="../../assets/img/logo-lg.png" alt="">
+  </div>
+
+  <div fxLayout="column" fxFlex>
+    <cdk-virtual-scroll-viewport *ngIf="this.conversations.length > 0" itemSize="50" class="virtual-viewport">
+      <mat-card class="card-container virtual-item" fxLayout="row" (click)="goToAdviceForm(problem.id)"
+        *cdkVirtualFor="let conversation of this.conversations">
+        <div fxLayout="column" fxFlex class="card-container">
+          <div fxLayout="row" fxLayoutAlign="center center" class="card-title-section">
+            <span class="advisor-label">{{conversation.advisor.name}}</span>
+            <span>
+              te aconseja:
+            </span>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="center center" class="card-content-section">{{conversation.message}}</div>
+        </div>
+      </mat-card>
+
+    </cdk-virtual-scroll-viewport>
+    <div *ngIf="this.conversations.length <= 0">
+      <span>Por suerte no existen casos que atender! </span>
+    </div>
+  </div>
+
+  <div fxFlex="10" fxLayout="row" fxLayoutAlign="center center" class="button-container">
+    <button mat-raised-button color="primary" (click)="goToHome()">Volver al home</button>
+  </div>
 </div>

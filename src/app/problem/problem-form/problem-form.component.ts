@@ -36,7 +36,7 @@ export class ProblemFormComponent implements OnInit {
     };
 
     this.manager.createProblem(this.problem, requester);
-    this.router.navigate(['/home']);
+    this.router.navigate(['/conversation']);
   }
 
   /**

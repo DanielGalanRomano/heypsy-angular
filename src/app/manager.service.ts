@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Problem } from './entities/problem';
 import { Person } from './entities/person';
+import { Conversation } from './entities/conversation';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +9,20 @@ import { Person } from './entities/person';
 export class ManagerService {
 
   public problemList: Problem[] = [];
+
+  public conversationsList: Conversation[] = [
+    {
+      adviceDate: new Date(),
+      advisor: {
+        name: 'prueba2'
+      },
+      message: 'Esto es una prueba',
+      requestDate: new Date(),
+      requester: {
+        name: 'prueba'
+      }
+    }
+  ];
 
   constructor() {
 
@@ -28,12 +43,28 @@ export class ManagerService {
     this.problemList.push(newProblem);
   }
 
-  public getProblemList() {
+  public setAdvice(message: string, advisor: Person, requester: Person) {
+    const newConversation: Conversation = {
+      adviceDate: new Date(),
+      advisor: advisor,
+      message: message,
+      requestDate: new Date(),
+      requester: requester,
+    };
+
+    this.conversationsList.push(newConversation);
+  }
+
+  public getProblemList(): Problem[] {
     return this.problemList;
   }
 
   public getProblemById(id: number): Problem[] {
     return this.problemList.filter((item) => item.id === id);
+  }
+
+  public getConversations(): Conversation[] {
+    return this.conversationsList;
   }
 
   private generateId(): number {

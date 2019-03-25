@@ -5,4 +5,5 @@ export interface Conversation {
     advisor: Person;
     requestDate: Date;
     adviceDate: Date;
+    message: string;
 }

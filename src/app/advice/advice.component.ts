@@ -29,6 +29,7 @@ export class AdviceComponent implements OnInit {
   }
 
   public goToHome() {
+    console.log(`${AdviceComponent.name}::goToHome`);
     this.router.navigate(['/home']);
   }
 
