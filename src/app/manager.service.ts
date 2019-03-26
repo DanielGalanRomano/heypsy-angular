@@ -12,6 +12,8 @@ export class ManagerService {
 
   public conversationsList: Conversation[] = [];
 
+  private termsAndConditionsValue = false;
+
   constructor() {
 
   }
@@ -53,6 +55,14 @@ export class ManagerService {
 
   public getConversations(): Conversation[] {
     return this.conversationsList;
+  }
+
+  public setTermsAndConditionsValue(value: boolean): void {
+    this.termsAndConditionsValue = value;
+  }
+
+  public getTermsAndConditionsValue(): boolean {
+    return this.termsAndConditionsValue;
   }
 
   private generateId(): number {

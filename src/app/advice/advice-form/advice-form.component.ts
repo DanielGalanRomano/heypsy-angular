@@ -62,4 +62,11 @@ export class AdviceFormComponent implements OnInit, OnDestroy {
     console.log(`${AdviceFormComponent.name}::goToAdviceList`);
     this.router.navigate(['/advice']);
   }
+
+  /**
+   * isFormComplete
+   */
+  public isFormComplete() {
+    return this.username !== '' && this.message !== '';
+  }
 }

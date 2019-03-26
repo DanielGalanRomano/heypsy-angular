@@ -21,7 +21,7 @@ export class AdviceComponent implements OnInit, OnDestroy {
   public dateReference: moment.Moment;
   public render: Date;
   public value: number;
-  private timerReference$: Subscription;
+  private timerReference$: Subscription = null;
 
   constructor(
     private router: Router,
@@ -36,7 +36,9 @@ export class AdviceComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.timerReference$.unsubscribe();
+    if (this.timerReference$ !== null) {
+      this.timerReference$.unsubscribe();
+    }
   }
 
   public goToHome() {

@@ -22,7 +22,7 @@
     </div>
 
     <div fxLayout="row" fxLayoutAlign="center center" class="problem-form-button">
-      <button mat-raised-button color="primary" (click)="sendProblem()">Pedir consejos anonimos</button>
+      <button mat-raised-button color="primary" (click)="sendProblem()" [disabled]="!isFormComplete()">Pedir consejos anonimos</button>
     </div>
 
     <div fxLayout="row" fxLayoutAlign="start center">

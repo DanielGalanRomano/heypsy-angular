@@ -16,7 +16,7 @@ export class ProblemFormComponent implements OnInit {
 
   public problem: string = '';
   public username: string = '';
-  public adviceOption: boolean = false;
+  public adviceOption: boolean = true;
   public termsAndConditionsOption: boolean = false;
 
   constructor(
@@ -24,6 +24,7 @@ export class ProblemFormComponent implements OnInit {
     private manager: ManagerService) { }
 
   ngOnInit() {
+    this.termsAndConditionsOption = this.manager.getTermsAndConditionsValue();
   }
 
   /**
@@ -48,4 +49,10 @@ export class ProblemFormComponent implements OnInit {
     this.router.navigate(['/terms-and-conditions']);
   }
 
+  /**
+   * isFormComplete
+   */
+  public isFormComplete() {
+    return this.username !== '' && this.problem !== '' && this.termsAndConditionsOption;
+  }
 }
