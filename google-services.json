@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "508812803495",
+    "firebase_url": "https://heypsy-app.firebaseio.com",
+    "project_id": "heypsy-app",
+    "storage_bucket": "heypsy-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:508812803495:android:227abd3cb2953908",
+        "android_client_info": {
+          "package_name": "com.heypsy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "508812803495-rojmm3vpa17oh37oupmfc8jh485cdsm3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDteRQKzAf0QtUWhnwdliMuPXf_uzNGDek"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
