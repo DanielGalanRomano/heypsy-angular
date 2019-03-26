@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { fadeAnimation } from '../app-transition';
 import { Router, RouterOutlet } from '@angular/router';
+import { ManagerService } from '../manager.service';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,9 @@ import { Router, RouterOutlet } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private manager: ManagerService) {
 
   }
 
@@ -21,8 +24,13 @@ export class HomeComponent implements OnInit {
 
   public goToProblemForm() {
     console.log(`${HomeComponent.name}::goToProblemForm`);
+    const conversations = this.manager.getConversations();
 
-    this.router.navigate(['/problem-form']);
+    if (conversations.length > 0) {
+      this.router.navigate(['/conversation/requester']);
+    } else {
+      this.router.navigate(['/problem-form']);
+    }
   }
 
   public goToAdvice() {
