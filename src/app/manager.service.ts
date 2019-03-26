@@ -15,7 +15,6 @@ export class ManagerService {
   private termsAndConditionsValue = false;
 
   constructor() {
-
   }
 
   /**

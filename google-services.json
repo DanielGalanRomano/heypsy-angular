@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "508812803495",
-    "firebase_url": "https://heypsy-app.firebaseio.com",
-    "project_id": "heypsy-app",
-    "storage_bucket": "heypsy-app.appspot.com"
+    "project_number": "199283175017",
+    "firebase_url": "https://io-cordova-heypsy.firebaseio.com",
+    "project_id": "io-cordova-heypsy",
+    "storage_bucket": "io-cordova-heypsy.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:508812803495:android:227abd3cb2953908",
+        "mobilesdk_app_id": "1:199283175017:android:032451e2a02574a3",
         "android_client_info": {
-          "package_name": "com.heypsy"
+          "package_name": "io.cordova.heypsy"
         }
       },
       "oauth_client": [
         {
-          "client_id": "508812803495-rojmm3vpa17oh37oupmfc8jh485cdsm3.apps.googleusercontent.com",
+          "client_id": "199283175017-v83f20oqkuk30280eqv4e1cpn4uhfmi6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDteRQKzAf0QtUWhnwdliMuPXf_uzNGDek"
+          "current_key": "AIzaSyAEKGN5VQytni3Z_P7c0Lm3fcUpeNuzj5U"
         }
       ],
       "services": {

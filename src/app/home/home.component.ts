@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { fadeAnimation } from '../app-transition';
 import { Router, RouterOutlet } from '@angular/router';
 import { ManagerService } from '../manager.service';
+import { FirebaseService } from '../firebase.service';
 
 @Component({
   selector: 'app-home',
@@ -15,11 +16,13 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private manager: ManagerService) {
+    private manager: ManagerService,
+    private firebase: FirebaseService) {
 
   }
 
   ngOnInit() {
+    this.firebase.initFirebase();
   }
 
   public goToProblemForm() {
