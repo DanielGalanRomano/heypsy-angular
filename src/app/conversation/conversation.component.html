@@ -10,9 +10,12 @@
         *cdkVirtualFor="let conversation of this.conversations">
         <div fxLayout="column" fxFlex class="card-container">
           <div fxLayout="row" fxLayoutAlign="center center" class="card-title-section">
-            <span class="advisor-label">{{conversation.advisor.name}}</span>
-            <span>
+            <span class="advisor-label" *ngIf="!isAdviser()">{{conversation.advisor.name}}</span>
+            <span *ngIf="!isAdviser()">
               te aconseja:
+            </span>
+            <span *ngIf="isAdviser()">
+              Aconsejaste:
             </span>
           </div>
           <div fxLayout="row" fxLayoutAlign="center center" class="card-content-section">{{conversation.message}}</div>
@@ -26,6 +29,7 @@
   </div>
 
   <div fxFlex="10" fxLayout="row" fxLayoutAlign="center center" class="button-container">
-    <button mat-raised-button color="primary" (click)="goToHome()">Volver al home</button>
+    <button *ngIf="!isAdviser()" mat-raised-button color="primary" (click)="goToHome()">Volver al home</button>
+    <button *ngIf="isAdviser()" mat-raised-button color="primary" (click)="goAdvice()">Aconsejar a nuevas personas</button>
   </div>
 </div>

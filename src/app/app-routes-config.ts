@@ -33,7 +33,7 @@ export const routes: Routes = [
         component: TermsAndConditionsComponent
     },
     {
-        path: 'conversation',
+        path: 'conversation/:type',
         component: ConversationComponent
     },
     {

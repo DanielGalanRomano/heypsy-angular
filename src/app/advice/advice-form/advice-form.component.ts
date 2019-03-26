@@ -56,6 +56,8 @@ export class AdviceFormComponent implements OnInit, OnDestroy {
     };
 
     this.manager.setAdvice(this.message, advisor, this.problem.requester);
+
+    this.router.navigate(['/conversation/adviser']);
   }
 
   public goToAdviceList() {
