@@ -10,19 +10,7 @@ export class ManagerService {
 
   public problemList: Problem[] = [];
 
-  public conversationsList: Conversation[] = [
-    {
-      adviceDate: new Date(),
-      advisor: {
-        name: 'prueba2'
-      },
-      message: 'Esto es una prueba',
-      requestDate: new Date(),
-      requester: {
-        name: 'prueba'
-      }
-    }
-  ];
+  public conversationsList: Conversation[] = [];
 
   constructor() {
 

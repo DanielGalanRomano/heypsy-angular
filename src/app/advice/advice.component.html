@@ -20,10 +20,12 @@
           </div>
           <div fxLayout="column">
             <div fxLayout="row" fxFlex fxLayoutAlign="end center" class="time-label">
-              <span>{{problem.scheduleDate | date}}</span>
+              <span>{{render | date:'HH:mm:ss'}}</span>
             </div>
             <div fxLayout="row" fxFlex>
-              <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+              <!-- <mat-progress-bar mode="indeterminate"></mat-progress-bar> -->
+              <mat-progress-bar mode="determinate" value="{{value}}"></mat-progress-bar>
+
             </div>
 
           </div>
