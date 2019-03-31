@@ -16,7 +16,6 @@ import { Problem } from 'src/app/entities/problem';
 export class AdviceFormComponent implements OnInit, OnDestroy {
 
   public problem: Problem;
-
   public message: string = '';
   public username: string = '';
 
@@ -56,10 +55,12 @@ export class AdviceFormComponent implements OnInit, OnDestroy {
     };
 
     this.manager.setAdvice(this.message, advisor, this.problem.requester);
-
     this.router.navigate(['/conversation/adviser']);
   }
 
+  /**
+   * Redirect to advice list.
+   */
   public goToAdviceList() {
     console.log(`${AdviceFormComponent.name}::goToAdviceList`);
     this.router.navigate(['/advice']);
