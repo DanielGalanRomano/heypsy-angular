@@ -3,6 +3,7 @@ import { fadeAnimation } from 'src/app/app-transition';
 import { Router } from '@angular/router';
 import { ManagerService } from 'src/app/manager.service';
 import { Person } from 'src/app/entities/person';
+import { FirebaseService } from '../firebase.service';
 
 @Component({
   selector: 'app-home',
@@ -22,10 +23,12 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private manager: ManagerService) { }
+    private manager: ManagerService,
+    private firebase: FirebaseService) { }
 
   ngOnInit() {
     this.termsAndConditionsOption = this.manager.getTermsAndConditionsValue();
+    this.firebase.initFirebase();
   }
 
   /**

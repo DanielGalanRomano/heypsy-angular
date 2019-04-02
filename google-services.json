@@ -1,39 +1,32 @@
 {
   "project_info": {
-    "project_number": "199283175017",
-    "firebase_url": "https://io-cordova-heypsy.firebaseio.com",
-    "project_id": "io-cordova-heypsy",
-    "storage_bucket": "io-cordova-heypsy.appspot.com"
+    "project_number": "106751525453",
+    "firebase_url": "https://heypsy-app-6401c.firebaseio.com",
+    "project_id": "heypsy-app-6401c",
+    "storage_bucket": "heypsy-app-6401c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:199283175017:android:032451e2a02574a3",
+        "mobilesdk_app_id": "1:106751525453:android:032451e2a02574a3",
         "android_client_info": {
           "package_name": "io.cordova.heypsy"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "199283175017-v83f20oqkuk30280eqv4e1cpn4uhfmi6.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAEKGN5VQytni3Z_P7c0Lm3fcUpeNuzj5U"
+          "current_key": "AIzaSyBKj7AH6GXQWluNrtg5bF2Bm2WdLPZyeTc"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "other_platform_oauth_client": [
+            {
+              "client_id": "106751525453-k3522b1fl628rtf43v1v3ebr0cbhs7s8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
