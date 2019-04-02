@@ -16,7 +16,7 @@ body {
 }
 
 .button-container {
-  padding: 16px;
+  padding: 16px 0;
 }
 
 router-outlet~* {
@@ -28,4 +28,10 @@ router-outlet~* {
 .primary {
   background-color: $color-primary !important;
   color: white !important;
+}
+
+.custom-buttom {
+  width: 328px !important;
+  height: 50px !important;
+  font-size: 16px !important;
 }

@@ -23,13 +23,21 @@
       </mat-card>
 
     </cdk-virtual-scroll-viewport>
-    <div *ngIf="this.conversations.length <= 0">
-      <span>Aguarda, pronto te van a responder a tu pedido! </span>
+    <div *ngIf="this.conversations.length <= 0" fxLayout="column" fxFlex fxLayoutAlign="center center">
+
+      <div>
+        <h4>Todavia no recibiste ningun consejo</h4>
+      </div>
+      <div (click)="refresh()">
+        <span>Refresca aqui</span>
+      </div>
     </div>
   </div>
 
   <div fxFlex="10" fxLayout="row" fxLayoutAlign="center center" class="button-container">
-    <button *ngIf="!isAdviser()" mat-raised-button color="primary" (click)="goToHome()">Volver al home</button>
-    <button *ngIf="isAdviser()" mat-raised-button color="primary" (click)="goAdvice()">Aconsejar a nuevas personas</button>
+    <div fxLayout="row" fxLayoutAlign="center center" class="problem-form-button">
+      <button mat-raised-button color="primary" class="custom-buttom" (click)="goAdvice()">Quiero
+        aconsejar</button>
+    </div>
   </div>
 </div>
