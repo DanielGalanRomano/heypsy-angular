@@ -9,8 +9,41 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$heypsy-app-primary: mat-palette($mat-red, A400);
-$heypsy-app-accent: mat-palette($mat-pink, A200, A100, A400);
+
+$md-heypsy: (50 : #fde7ec,
+100 : #fac4ce,
+200 : #f79dae,
+300 : #f4758e,
+400 : #f15875,
+500 : #ef3a5d,
+600 : #ed3455,
+700 : #eb2c4b,
+800 : #e82541,
+900 : #e41830,
+A100 : #ffffff,
+A200 : #ffe3e6,
+A400 : #ffb0b7,
+A700 : #ff96a0,
+contrast: (50 : #000000,
+100 : #000000,
+200 : #000000,
+300 : #000000,
+400 : #000000,
+500 : #ffffff,
+600 : #ffffff,
+700 : #ffffff,
+800 : #ffffff,
+900 : #ffffff,
+A100 : #000000,
+A200 : #000000,
+A400 : #000000,
+A700 : #000000,
+));
+
+
+$heypsy-app-primary: mat-palette($md-heypsy, 500);
+
+$heypsy-app-accent: mat-palette($md-heypsy, 500, A100, A400);
 
 // The warn palette is optional (defaults to red).
 $heypsy-app-warn: mat-palette($mat-red);

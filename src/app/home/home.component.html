@@ -1,24 +1,47 @@
-<div fxFlexFill class="general-container" fxLayout="column">
+<div fxFlexFill class="problem-container" fxLayout="column">
 
-  <div fxLayout="column" fxFlex="70" fxLayoutAlign="start center">
-    <img fxFlex="80" src="assets/img/woman.png" alt="">
+  <div fxLayout="column" fxFlex fxLayoutAlign="center center" class="principal-logo-container">
+    <img fxFlex="90" src="assets/img/woman.png" alt="">
   </div>
 
-  <div>
-    <div fxLayout="row" fxLayoutAlign="center center" class="button-container">
-      <button fxFlex="60" fxLayout="row" mat-raised-button (click)="goToProblemForm()" color="primary">
-        <i class="material-icons">
-          help
-        </i>
-        Pedir consejo</button>
+  <div fxLayout="column" fxFlex>
+    <div fxLayout="row">
+      <mat-form-field fxFlex appearance="outline">
+        <mat-label>¿Que esta pasando?</mat-label>
+        <input name="problem" [(ngModel)]="problem" matInput placeholder="Me despidieron del trabajo">
+        <mat-hint>Tu pedido es 100% anonimo</mat-hint>
+      </mat-form-field>
+    </div>
+    <div *ngIf="showAllOptions" fxLayout="row">
+      <mat-form-field fxFlex appearance="outline">
+        <mat-label>¿Como te llamas?</mat-label>
+        <input name="username" [(ngModel)]="username" matInput placeholder="Ingresa solo tu nombre">
+      </mat-form-field>
     </div>
 
-    <div fxLayout="row" fxLayoutAlign="center center" class="button-container" (click)="goToAdvice()">
-      <button fxFlex="60" fxLayout="row" mat-raised-button color="primary">
-        <i class="material-icons">
-          thumbs_up_down
-        </i>
-        Quiero aconsejar</button>
+    <div fxLayout="column" fxLayoutAlign="space-around center" fxFlex>
+      <div *ngIf="!showAllOptions" fxLayout="row" fxLayoutAlign="center center" class="problem-form-button">
+        <button mat-raised-button color="primary" class="custom-buttom" (click)="activateAllOptions()"
+          [disabled]="!isProblemDefine()">Pedir consejos
+          anonimos</button>
+      </div>
+
+      <div *ngIf="!showAllOptions" fxLayout="row" fxLayoutAlign="center center" class="problem-form-button">
+        <button mat-raised-button color="primary" class="custom-buttom" (click)="goToAdvice()">Quiero aconsejar</button>
+      </div>
+
+      <div *ngIf="showAllOptions" fxLayout="row" fxLayoutAlign="center center" class="problem-form-button">
+        <button mat-raised-button color="primary" class="custom-buttom" (click)="sendProblem()"
+          [disabled]="!isFormComplete()">Pedir consejos
+          anonimos</button>
+      </div>
+    </div>
+
+    <div *ngIf="showAllOptions" fxLayout="row" fxLayoutAlign="start center"
+      class="terms-and-conditions-option-container">
+      <mat-checkbox [(ngModel)]="termsAndConditionsOption">
+        <u (click)="goToTermsAndConditions()">Acepto terminos y condiciones!</u>
+      </mat-checkbox>
     </div>
   </div>
 </div>
