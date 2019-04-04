@@ -7,8 +7,8 @@
   <div>
     <mat-card class="info-card-container">
       <mat-card-content fxLayout="column" fxLayoutAlign="center center">
-        <span>{{problem.requester.name}} necesita ayuda con:</span>
-        <h2 class="problem-label">{{problem.text}}</h2>
+        <span>{{problem.requester}} necesita ayuda con:</span>
+        <h2 class="problem-label">{{problem.message}}</h2>
       </mat-card-content>
     </mat-card>
 
@@ -35,7 +35,7 @@
 
   <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between center"></div>
   <div fxLayout="row" fxLayoutAlign="center center" class="button-container">
-    <button mat-raised-button color="primary" (click)="sendMessage()" [disabled]="!isFormComplete()">Enviar
+    <button mat-raised-button color="primary" (click)="sendConsejo()" [disabled]="!isFormComplete()">Enviar
       consejo</button>
   </div>
   <div fxLayout="row" fxLayoutAlign="center center" class="button-container">

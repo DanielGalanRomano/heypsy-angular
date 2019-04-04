@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { fadeAnimation } from '../app-transition';
 import { Conversation } from '../entities/conversation';
 import { ManagerService } from '../manager.service';
@@ -14,12 +14,13 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
     fadeAnimation
   ]
 })
-export class ConversationComponent implements OnInit {
+export class ConversationComponent implements OnInit, OnDestroy {
 
   /**
    * subscription reference.
    */
-  private subscription: Subscription;
+  private subscription: Subscription = null;
+  private getConsejos$: Subscription = null;
 
   public conversations: Conversation[] = [];
 
@@ -40,8 +41,17 @@ export class ConversationComponent implements OnInit {
           this.role = roleType;
         }
       });
+    this.getConsejos$ = this.manager.getConsejos$()
+      .subscribe((response: any) => {
+        this.conversations = response;
+      });
+  }
 
-    this.conversations = this.manager.getConversations();
+  ngOnDestroy() {
+    if (this.subscription !== null || this.getConsejos$ !== null) {
+      this.subscription.unsubscribe();
+      this.getConsejos$.unsubscribe();
+    }
   }
 
   openDialog() {

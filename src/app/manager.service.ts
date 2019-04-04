@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Problem } from './entities/problem';
-import { Person } from './entities/person';
 import { Conversation } from './entities/conversation';
+
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { Consejo } from './entities/consejo';
 
 @Injectable({
   providedIn: 'root'
@@ -14,47 +17,15 @@ export class ManagerService {
 
   private termsAndConditionsValue = false;
 
-  constructor() {
+  constructor(private db: AngularFirestore) {
   }
 
-  /**
-   * createProblem
-   */
-  public createProblem(problem: string, requester: Person) {
-    const newProblem = {
-      id: this.generateId(),
-      text: problem,
-      requester: requester,
-      assisted: false,
-      scheduleDate: new Date()
-    };
-
-    this.problemList.push(newProblem);
-  }
-
-  public setAdvice(message: string, advisor: Person, requester: Person) {
-    const newConversation: Conversation = {
-      adviceDate: new Date(),
-      advisor: advisor,
-      message: message,
-      requestDate: new Date(),
-      requester: requester,
-    };
-
-    this.conversationsList.push(newConversation);
-  }
 
   public getProblemList(): Problem[] {
     return this.problemList;
   }
 
-  public getProblemById(id: number): Problem[] {
-    return this.problemList.filter((item) => item.id === id);
-  }
 
-  public getConversations(): Conversation[] {
-    return this.conversationsList;
-  }
 
   public setTermsAndConditionsValue(value: boolean): void {
     this.termsAndConditionsValue = value;
@@ -64,8 +35,78 @@ export class ManagerService {
     return this.termsAndConditionsValue;
   }
 
-  private generateId(): number {
-    return Math.random();
+  public getProblemById(id: string): Problem[] {
+    return this.problemList.filter((item) => item.id === id);
   }
 
+  /**
+   * createId
+   */
+  public createId(): string {
+    return this.db.createId();
+  }
+
+  public getProblemById$(): Observable<{}[]> {
+    return this.db.collection('problems').valueChanges();
+  }
+
+  /**
+   * getConversationById
+   */
+  public getProblems$(): Observable<{}[]> {
+    return this.db.collection('problems').valueChanges();
+  }
+
+  public getConsejos$(): Observable<{}[]> {
+    return this.db.collection('consejos').valueChanges();
+  }
+
+  /**
+   * getConversationById
+   */
+  public getConsejosById$(): Observable<firebase.firestore.QuerySnapshot> {
+    return this.db.collection('consejos').get();
+  }
+
+  /**
+   * sendProblem
+   */
+  public sendProblem(problem: string, requester: string): void {
+    console.log(`${ManagerService.name}::sendProblem`);
+    const newId = this.createId();
+    const newProblem: Problem = {
+      id: newId,
+      requester: requester,
+      message: problem,
+      scheduleDate: new Date(),
+      assisted: null,
+      resolved: false
+    };
+
+    this.db.collection('problems')
+      .doc(newId)
+      .set(newProblem);
+  }
+
+  /**
+   * sendConsejo
+   */
+  public sendConsejo(consejo: string, user: string, problemAssociated: string): void {
+    console.log(`${ManagerService.name}::sendProblem`);
+    const newId = this.createId();
+    const newConsejo: Consejo = {
+      id: newId,
+      assistedBy: user,
+      message: consejo,
+      scheduleDate: new Date(),
+      problemAssociated: problemAssociated
+    };
+
+    this.db.collection('consejos')
+      .doc(newId)
+      .set(newConsejo)
+      .then(() => {
+        this.db.doc(`problems/${problemAssociated}`).update({ resolved: true });
+      });
+  }
 }

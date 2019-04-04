@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ManagerService } from '../manager.service';
 import { Problem } from '../entities/problem';
 import { interval, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 
 
@@ -17,27 +18,53 @@ import * as moment from 'moment';
 })
 export class AdviceComponent implements OnInit, OnDestroy {
 
-  public problemList: Problem[] = [];
+  public problemResolvedList: Problem[] = [];
+  public problemUnresolvedList: Problem[] = [];
   public dateReference: moment.Moment;
   public render: Date;
   public value: number;
   private timerReference$: Subscription = null;
+
+  private problemUnresolvedListSubscription$: Subscription = null;
+  private problemResolvedListSubscription$: Subscription = null;
 
   constructor(
     private router: Router,
     private manager: ManagerService) { }
 
   ngOnInit() {
-    this.problemList = this.manager.getProblemList();
+    this.problemUnresolvedListSubscription$ = this.manager.getProblems$()
+      .pipe(
+        map(response => response.filter((item: any) => {
+          return item.resolved !== undefined && !item.resolved;
+        }))
+      )
+      .subscribe((problemList: Problem[]) => {
+        this.problemUnresolvedList = problemList;
+      });
 
-    if (this.problemList.length > 0) {
-      this.initCountdown(this.problemList[0].scheduleDate);
+    this.manager.getProblems$()
+      .pipe(
+        map(response => response.filter((item: any) => {
+          return item.resolved !== undefined && item.resolved;
+        }))
+      )
+      .subscribe((problemList: Problem[]) => {
+        this.problemResolvedList = problemList;
+      });
+
+    if (this.problemUnresolvedList.length > 0) {
+      this.initCountdown(this.problemUnresolvedList[0].scheduleDate);
     }
   }
 
   ngOnDestroy() {
-    if (this.timerReference$ !== null) {
+    if (this.timerReference$ !== null &&
+      this.problemResolvedListSubscription$ !== null &&
+      this.problemUnresolvedListSubscription$ !== null) {
       this.timerReference$.unsubscribe();
+      this.problemResolvedListSubscription$.unsubscribe();
+      this.problemUnresolvedListSubscription$.unsubscribe();
     }
   }
 

@@ -36,11 +36,8 @@ export class HomeComponent implements OnInit {
    */
   public sendProblem() {
     console.log(`${HomeComponent.name}::sendProblem username %o , message %o`, this.username, this.problem);
-    const requester: Person = {
-      name: this.username
-    };
 
-    this.manager.createProblem(this.problem, requester);
+    this.manager.sendProblem(this.problem, this.username);
     this.router.navigate(['/conversation/requester']);
   }
 

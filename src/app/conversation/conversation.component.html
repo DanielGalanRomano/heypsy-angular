@@ -10,7 +10,7 @@
         *cdkVirtualFor="let conversation of this.conversations">
         <div fxLayout="column" fxFlex class="card-container">
           <div fxLayout="row" fxLayoutAlign="center center" class="card-title-section">
-            <span class="advisor-label" *ngIf="!isAdviser()">{{conversation.advisor.name}}</span>
+            <span class="advisor-label" *ngIf="!isAdviser()">{{conversation.assistedBy}}</span>
             <span *ngIf="!isAdviser()">
               te aconseja:
             </span>

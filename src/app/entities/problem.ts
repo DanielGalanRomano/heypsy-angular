@@ -1,10 +1,8 @@
-import { Person } from './person';
-
 export interface Problem {
-    id: number;
-    text: string;
-    requester: Person;
+    id: string;
+    message: string;
+    requester: string;
     assisted: boolean;
     scheduleDate: Date;
-    adviser?: Person;
+    resolved: boolean;
 }

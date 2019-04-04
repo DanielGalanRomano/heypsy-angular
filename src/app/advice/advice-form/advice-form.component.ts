@@ -4,6 +4,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ManagerService } from 'src/app/manager.service';
 import { Problem } from 'src/app/entities/problem';
+import { map } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-advice-form',
@@ -18,11 +20,14 @@ export class AdviceFormComponent implements OnInit, OnDestroy {
   public problem: Problem;
   public message: string = '';
   public username: string = '';
+  public idAssociated: string = '';
+
+  private getProblemById: Subscription = null;
 
   /**
    * subscription reference.
    */
-  private subscription: Subscription;
+  private subscription: Subscription = null;
 
   constructor(
     private router: Router,
@@ -33,28 +38,37 @@ export class AdviceFormComponent implements OnInit, OnDestroy {
 
     this.subscription = this.route.params
       .subscribe(params => {
-        const id = +params['id'];
-        if (id) {
-          this.problem = this.manager.getProblemById(id)[0];
+        this.idAssociated = params['id'];
+        if (this.idAssociated) {
+          this.problem = this.manager.getProblemById(this.idAssociated)[0];
+          this.getProblemById = this.manager.getProblemById$().pipe(
+            map(response => response.filter((item: any) => {
+              return item.id !== undefined && item.id === this.idAssociated;
+            }))
+          )
+            .subscribe((problem: any) => {
+              this.problem = problem[0];
+            });
         }
       });
   }
 
   ngOnDestroy() {
-    // Unsubscribe.
-    this.subscription.unsubscribe();
+    if (this.subscription !== null || this.getProblemById !== null) {
+      // Unsubscribe.
+      this.subscription.unsubscribe();
+      this.getProblemById.unsubscribe();
+    }
   }
 
   /**
-   * sendMessage
+   * sendConsejo
    */
-  public sendMessage() {
+  public sendConsejo() {
     console.log(`${AdviceFormComponent.name}::sendMessage username %o , message %o`, this.username, this.message);
-    const advisor = {
-      name: this.username
-    };
 
-    this.manager.setAdvice(this.message, advisor, this.problem.requester);
+    this.manager.sendConsejo(this.message, this.username, this.idAssociated);
+
     this.router.navigate(['/conversation/adviser']);
   }
 
