@@ -35,10 +35,10 @@
       <mat-card class="card-container virtual-item" fxLayout="row" (click)="goToAdviceForm(problem.id)"
         *cdkVirtualFor="let problem of this.problemUnresolvedList">
         <div fxLayout="column" fxFlex>
-          <div fxLayout="row" fxFlex class="info-container">
+          <div fxLayout="row" class="info-container content">
             <span class="user-name">{{problem.requester}}:</span>
-            <span fxFlex>{{problem.message}}</span>
-            <div fxLayout="row" fxFlex fxLayoutAlign="end center">
+            <span fxFlex class="truncate">{{getTextProblem(problem.message)}}</span>
+            <div fxLayout="row" fxLayoutAlign="end center">
               <i class="material-icons reply-icon">
                 keyboard_arrow_right
               </i>

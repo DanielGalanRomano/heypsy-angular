@@ -90,4 +90,12 @@ export class AdviceComponent implements OnInit, OnDestroy {
     });
 
   }
+
+  /**
+   * getTextProblem
+   */
+  public getTextProblem(message: string) {
+    const messageFormated: string = message.length > 100 ? `${message.slice(0, 97)}...` : message;
+    return messageFormated;
+  }
 }

@@ -16,6 +16,8 @@ $color-primary:#ef3a5d;
 
 .info-container {
   padding: 8px 8px 8px 8px;
+  max-width: 312px;
+  word-break: break-all;
 }
 
 .time-label {
@@ -30,4 +32,11 @@ $color-primary:#ef3a5d;
 
 .reply-icon {
   color: $color-primary !important;
+}
+
+.block-with-text {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;  
 }
