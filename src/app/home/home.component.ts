@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ManagerService } from 'src/app/manager.service';
 import { Person } from 'src/app/entities/person';
 import { FirebaseService } from '../firebase.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-home',
@@ -24,6 +25,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private router: Router,
     private manager: ManagerService,
+    public dialog: MatDialog,
     private firebase: FirebaseService) { }
 
   ngOnInit() {
@@ -47,7 +49,11 @@ export class HomeComponent implements OnInit {
   public goToTermsAndConditions() {
     console.log(`${HomeComponent.name}::goToTermsAndConditions`);
 
-    this.router.navigate(['/terms-and-conditions']);
+    if (!this.termsAndConditionsOption) {
+      this.openDialog();
+    } else {
+      this.router.navigate(['/terms-and-conditions']);
+    }
   }
 
   /**
@@ -55,8 +61,15 @@ export class HomeComponent implements OnInit {
    */
   public goToAdvice() {
     console.log(`${HomeComponent.name}::goToAdvice`);
+    if (!this.termsAndConditionsOption) {
+      this.openDialog();
+    } else {
+      this.router.navigate(['/advice']);
+    }
+  }
 
-    this.router.navigate(['/advice']);
+  openDialog() {
+    this.dialog.open(DialogHomeComponent);
   }
 
   /**
@@ -81,3 +94,15 @@ export class HomeComponent implements OnInit {
   }
 }
 
+
+@Component({
+  selector: 'app-home-dialog',
+  templateUrl: 'home-dialog.html',
+})
+export class DialogHomeComponent {
+  constructor(public dialogRef: MatDialogRef<DialogHomeComponent>) { }
+
+  okClick(): void {
+    this.dialogRef.close();
+  }
+}

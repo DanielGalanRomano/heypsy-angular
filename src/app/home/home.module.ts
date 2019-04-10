@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HomeComponent } from './home.component';
+import { HomeComponent, DialogHomeComponent } from './home.component';
 import { AngularMaterialModule } from '../angular-material/angular.material.module';
 
 @NgModule({
-  declarations: [HomeComponent],
+  declarations: [HomeComponent, DialogHomeComponent],
+  entryComponents: [DialogHomeComponent],
   imports: [
     CommonModule,
     AngularMaterialModule

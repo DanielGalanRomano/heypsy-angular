@@ -23,10 +23,10 @@
       <div fxLayout="row" fxFlex>
 
         <mat-form-field fxFlex>
-          <textarea matInput placeholder="Textarea" rows="5" name="message" [(ngModel)]="message" maxlength="256"
+          <textarea matInput placeholder="Textarea" rows="5" name="message" [(ngModel)]="message" maxlength="1000"
             placeholder="Escribe algo genuino"></textarea>
           <mat-hint align="start"><strong>Tu consejo es 100% anonimo</strong> </mat-hint>
-          <mat-hint align="end">{{message.length}} / 256</mat-hint>
+          <mat-hint align="end">{{message.length}} / 1000</mat-hint>
         </mat-form-field>
 
       </div>
@@ -34,11 +34,11 @@
   </div>
 
   <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between center"></div>
-  <div fxLayout="row" fxLayoutAlign="center center" class="button-container">
-    <button mat-raised-button color="primary" (click)="sendConsejo()" [disabled]="!isFormComplete()">Enviar
-      consejo</button>
+  <div fxLayout="row" class="button-container" fxLayoutAlign="center center" color="primary">
+    <button mat-raised-button color="primary" class="custom-buttom" (click)="sendConsejo()"  [disabled]="!isFormComplete()">Quiero aconsejar</button>
   </div>
-  <div fxLayout="row" fxLayoutAlign="center center" class="button-container">
-    <button mat-raised-button color="primary" (click)="goToAdviceList()">Volver a la lista</button>
+
+  <div fxLayout="row" class="button-container" fxLayoutAlign="center center" color="primary">
+    <button mat-raised-button color="primary" class="custom-buttom" (click)="goToAdviceList()">Volver a la lista</button>
   </div>
 </div>

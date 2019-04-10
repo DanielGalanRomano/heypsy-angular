@@ -8,7 +8,7 @@
     <div fxLayout="row">
       <mat-form-field fxFlex appearance="outline">
         <mat-label>¿Que esta pasando?</mat-label>
-        <input name="problem" [(ngModel)]="problem" matInput placeholder="Me despidieron del trabajo">
+        <input name="problem" [(ngModel)]="problem" matInput placeholder="Me despidieron del trabajo" maxlength="500">
         <mat-hint>Tu pedido es 100% anonimo</mat-hint>
       </mat-form-field>
     </div>
@@ -19,7 +19,7 @@
       </mat-form-field>
     </div>
 
-    <div fxLayout="column" fxLayoutAlign="space-around center" fxFlex>
+    <div fxLayout="column" fxLayoutAlign="space-around center" fxFlex="50">
       <div *ngIf="!showAllOptions" fxLayout="row" fxLayoutAlign="center center" class="problem-form-button">
         <button mat-raised-button color="primary" class="custom-buttom" (click)="activateAllOptions()"
           [disabled]="!isProblemDefine()">Pedir consejos
@@ -27,7 +27,7 @@
       </div>
 
       <div *ngIf="!showAllOptions" fxLayout="row" fxLayoutAlign="center center" class="problem-form-button">
-        <button mat-raised-button color="primary" class="custom-buttom" (click)="goToAdvice()">Quiero aconsejar</button>
+        <button mat-stroked-button color="primary" class="custom-buttom" (click)="goToAdvice()">Quiero aconsejar</button>
       </div>
 
       <div *ngIf="showAllOptions" fxLayout="row" fxLayoutAlign="center center" class="problem-form-button">
@@ -36,12 +36,12 @@
           anonimos</button>
       </div>
     </div>
+    <div fxLayout="row" fxLayoutAlign="start center"
+    class="terms-and-conditions-option-container">
+    <mat-checkbox [(ngModel)]="termsAndConditionsOption">
+      <u (click)="goToTermsAndConditions()">Acepto terminos y condiciones!</u>
+    </mat-checkbox>
+  </div>
 
-    <div *ngIf="showAllOptions" fxLayout="row" fxLayoutAlign="start center"
-      class="terms-and-conditions-option-container">
-      <mat-checkbox [(ngModel)]="termsAndConditionsOption">
-        <u (click)="goToTermsAndConditions()">Acepto terminos y condiciones!</u>
-      </mat-checkbox>
-    </div>
   </div>
 </div>

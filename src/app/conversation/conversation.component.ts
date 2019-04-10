@@ -4,7 +4,7 @@ import { Conversation } from '../entities/conversation';
 import { ManagerService } from '../manager.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-conversation',
@@ -55,11 +55,7 @@ export class ConversationComponent implements OnInit, OnDestroy {
   }
 
   openDialog() {
-    this.dialog.open(DialogDataDialogComponent, {
-      data: {
-        animal: 'panda'
-      }
-    });
+    this.dialog.open(DialogDataDialogComponent);
   }
   public goToHome() {
     console.log(`${ConversationComponent.name}::goToHome`);
@@ -90,9 +86,9 @@ export class ConversationComponent implements OnInit, OnDestroy {
   templateUrl: 'conversation-dialog.html',
 })
 export class DialogDataDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) { }
-}
+  constructor(public dialogRef: MatDialogRef<DialogDataDialogComponent>) { }
 
-export interface DialogData {
-  animal: 'panda' | 'unicorn' | 'lion';
+  okClick(): void {
+    this.dialogRef.close();
+  }
 }

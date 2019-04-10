@@ -37,10 +37,10 @@
         <div fxLayout="column" fxFlex>
           <div fxLayout="row" fxFlex class="info-container">
             <span class="user-name">{{problem.requester}}:</span>
-            <span>{{problem.message}}</span>
+            <span fxFlex>{{problem.message}}</span>
             <div fxLayout="row" fxFlex fxLayoutAlign="end center">
               <i class="material-icons reply-icon">
-                reply
+                keyboard_arrow_right
               </i>
             </div>
           </div>
@@ -61,7 +61,7 @@
     </div>
   </div>
 
-  <div fxFlex="10" fxLayout="row" fxLayoutAlign="center center" class="button-container">
-    <button mat-raised-button color="primary" (click)="goToHome()">Volver al home</button>
+  <div fxLayout="row" class="button-container" fxLayoutAlign="center center" color="primary">
+    <button mat-raised-button color="primary" class="custom-buttom" (click)="goToHome()">Volver al home</button>
   </div>
 </div>

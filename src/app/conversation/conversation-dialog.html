@@ -2,5 +2,5 @@
   <p>Aguarda, pronto te van a responder a tu pedido!</p>
 </div>
 <div mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>
+  <button mat-button (click)="okClick()" [mat-dialog-close] cdkFocusInitial>Ok</button>
 </div>
