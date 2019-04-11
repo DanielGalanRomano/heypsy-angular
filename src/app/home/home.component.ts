@@ -38,9 +38,15 @@ export class HomeComponent implements OnInit {
    */
   public sendProblem() {
     console.log(`${HomeComponent.name}::sendProblem username %o , message %o`, this.username, this.problem);
-
-    this.manager.sendProblem(this.problem, this.username);
-    this.router.navigate(['/conversation/requester']);
+    const validationHours: boolean = this.manager.hasRequestInProcess();
+    if (validationHours) {
+      this.openHourValidationDialog();
+    } else if (!this.termsAndConditionsOption) {
+      this.openTermsAndConditionsDialog();
+    } else {
+      this.manager.sendProblem(this.problem, this.username);
+      this.router.navigate(['/conversation/requester']);
+    }
   }
 
   /**
@@ -48,12 +54,7 @@ export class HomeComponent implements OnInit {
    */
   public goToTermsAndConditions() {
     console.log(`${HomeComponent.name}::goToTermsAndConditions`);
-
-    if (!this.termsAndConditionsOption) {
-      this.openDialog();
-    } else {
-      this.router.navigate(['/terms-and-conditions']);
-    }
+    this.router.navigate(['/terms-and-conditions']);
   }
 
   /**
@@ -62,14 +63,17 @@ export class HomeComponent implements OnInit {
   public goToAdvice() {
     console.log(`${HomeComponent.name}::goToAdvice`);
     if (!this.termsAndConditionsOption) {
-      this.openDialog();
+      this.openTermsAndConditionsDialog();
     } else {
       this.router.navigate(['/advice']);
     }
   }
 
-  openDialog() {
+  public openTermsAndConditionsDialog() {
     this.dialog.open(DialogHomeComponent);
+  }
+  public openHourValidationDialog() {
+    this.dialog.open(DialogHourValidationComponent);
   }
 
   /**
@@ -101,6 +105,18 @@ export class HomeComponent implements OnInit {
 })
 export class DialogHomeComponent {
   constructor(public dialogRef: MatDialogRef<DialogHomeComponent>) { }
+
+  okClick(): void {
+    this.dialogRef.close();
+  }
+}
+
+@Component({
+  selector: 'app-hour-validation-dialog',
+  templateUrl: 'hour-validation-dialog.html',
+})
+export class DialogHourValidationComponent {
+  constructor(public dialogRef: MatDialogRef<DialogHourValidationComponent>) { }
 
   okClick(): void {
     this.dialogRef.close();

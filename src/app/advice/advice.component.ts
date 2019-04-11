@@ -7,7 +7,6 @@ import { interval, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 
-
 @Component({
   selector: 'app-advice',
   templateUrl: './advice.component.html',
@@ -23,8 +22,8 @@ export class AdviceComponent implements OnInit, OnDestroy {
   public dateReference: moment.Moment;
   public render: Date;
   public value: number;
+  public problemRequest = undefined;
   private timerReference$: Subscription = null;
-
   private problemUnresolvedListSubscription$: Subscription = null;
   private problemResolvedListSubscription$: Subscription = null;
 

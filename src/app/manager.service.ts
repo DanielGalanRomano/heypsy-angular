@@ -5,6 +5,8 @@ import { Conversation } from './entities/conversation';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Consejo } from './entities/consejo';
+import * as moment from 'moment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -17,15 +19,19 @@ export class ManagerService {
 
   private termsAndConditionsValue = false;
 
+  private currentUser;
+
   constructor(private db: AngularFirestore) {
+    this.getUserData();
+    if (this.hasRequestInProcess()) {
+      this.deleteUserData();
+    }
   }
 
 
   public getProblemList(): Problem[] {
     return this.problemList;
   }
-
-
 
   public setTermsAndConditionsValue(value: boolean): void {
     this.termsAndConditionsValue = value;
@@ -85,7 +91,10 @@ export class ManagerService {
 
     this.db.collection('problems')
       .doc(newId)
-      .set(newProblem);
+      .set(newProblem)
+      .then(() => {
+        this.saveUserData(requester, newProblem);
+      });
   }
 
   /**
@@ -108,5 +117,33 @@ export class ManagerService {
       .then(() => {
         this.db.doc(`problems/${problemAssociated}`).update({ resolved: true });
       });
+  }
+
+  private saveUserData(requester: string, newProblem: Problem) {
+
+    const newUser = {
+      id: this.createId(),
+      user: requester,
+      problem: newProblem,
+      scheduleDate: new Date()
+    };
+
+    localStorage.setItem('User', JSON.stringify(newUser));
+  }
+
+  private getUserData() {
+    const jsonUser = localStorage.getItem('User');
+    this.currentUser = JSON.parse(jsonUser);
+  }
+
+  private deleteUserData(): void {
+    localStorage.setItem('User', undefined);
+  }
+
+  public hasRequestInProcess() {
+    const now = moment();
+    const dateToCompare = moment(this.currentUser.scheduleDate);
+    const diff = now.diff(dateToCompare, 'hours');
+    return this.currentUser !== undefined && diff < 24;
   }
 }
