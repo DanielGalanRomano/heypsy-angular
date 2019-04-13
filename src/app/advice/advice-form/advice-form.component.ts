@@ -67,7 +67,7 @@ export class AdviceFormComponent implements OnInit, OnDestroy {
   public sendConsejo() {
     console.log(`${AdviceFormComponent.name}::sendMessage username %o , message %o`, this.username, this.message);
 
-    this.manager.sendConsejo(this.message, this.username, this.idAssociated);
+    this.manager.sendConsejo(this.message, this.username, this.idAssociated, this.problem);
 
     this.router.navigate(['/conversation/adviser']);
   }

@@ -22,10 +22,9 @@ export class ManagerService {
   private currentUser;
 
   constructor(private db: AngularFirestore) {
-    this.getUserData();
-    if (this.hasRequestInProcess()) {
-      this.deleteUserData();
-    }
+    // if (this.hasRequestInProcess()) {
+    //   this.deleteUserData();
+    // }
   }
 
 
@@ -86,7 +85,8 @@ export class ManagerService {
       message: problem,
       scheduleDate: new Date(),
       assisted: null,
-      resolved: false
+      resolved: false,
+      answers: 0
     };
 
     this.db.collection('problems')
@@ -100,7 +100,7 @@ export class ManagerService {
   /**
    * sendConsejo
    */
-  public sendConsejo(consejo: string, user: string, problemAssociated: string): void {
+  public sendConsejo(consejo: string, user: string, problemAssociated: string, problem: Problem): void {
     console.log(`${ManagerService.name}::sendProblem`);
     const newId = this.createId();
     const newConsejo: Consejo = {
@@ -115,7 +115,7 @@ export class ManagerService {
       .doc(newId)
       .set(newConsejo)
       .then(() => {
-        this.db.doc(`problems/${problemAssociated}`).update({ resolved: true });
+        this.db.doc(`problems/${problemAssociated}`).update({ resolved: true, answers: problem.answers + 1 });
       });
   }
 
@@ -131,9 +131,16 @@ export class ManagerService {
     localStorage.setItem('User', JSON.stringify(newUser));
   }
 
-  private getUserData() {
+
+  public getUserData() {
     const jsonUser = localStorage.getItem('User');
-    this.currentUser = JSON.parse(jsonUser);
+    if (jsonUser !== 'undefined') {
+      this.currentUser = JSON.parse(jsonUser);
+    } else {
+      this.currentUser = undefined;
+    }
+
+    return this.currentUser;
   }
 
   private deleteUserData(): void {
@@ -141,9 +148,13 @@ export class ManagerService {
   }
 
   public hasRequestInProcess() {
-    const now = moment();
-    const dateToCompare = moment(this.currentUser.scheduleDate);
-    const diff = now.diff(dateToCompare, 'hours');
+    let diff = 0;
+    if (this.currentUser !== undefined) {
+      const now = moment();
+      const dateToCompare = moment(this.currentUser.scheduleDate);
+      diff = now.diff(dateToCompare, 'hours');
+    }
+
     return this.currentUser !== undefined && diff < 24;
   }
 }

@@ -5,4 +5,5 @@ export interface Problem {
     assisted: boolean;
     scheduleDate: Date;
     resolved: boolean;
+    answers: number;
 }

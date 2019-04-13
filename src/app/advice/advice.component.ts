@@ -22,14 +22,19 @@ export class AdviceComponent implements OnInit, OnDestroy {
   public dateReference: moment.Moment;
   public render: Date;
   public value: number;
-  public problemRequest = undefined;
+  public currentUser = undefined;
   private timerReference$: Subscription = null;
   private problemUnresolvedListSubscription$: Subscription = null;
   private problemResolvedListSubscription$: Subscription = null;
+  private getProblemById$: Subscription = null;
+  public answersCount: number = 0;
 
   constructor(
     private router: Router,
-    private manager: ManagerService) { }
+    private manager: ManagerService) {
+
+    this.currentUser = this.manager.getUserData();
+  }
 
   ngOnInit() {
     this.problemUnresolvedListSubscription$ = this.manager.getProblems$()
@@ -41,6 +46,18 @@ export class AdviceComponent implements OnInit, OnDestroy {
       .subscribe((problemList: Problem[]) => {
         this.problemUnresolvedList = problemList;
       });
+
+    if (this.currentUser !== undefined) {
+      this.getProblemById$ = this.manager.getProblemById$().pipe(
+        map(response => response.filter((item: any) => {
+          return item.id !== undefined && item.id === this.currentUser.problem.id;
+        }))
+      )
+        .subscribe((problem: any) => {
+          this.answersCount = problem[0].answers;
+        });
+    }
+
 
     this.manager.getProblems$()
       .pipe(
@@ -62,6 +79,7 @@ export class AdviceComponent implements OnInit, OnDestroy {
       this.problemResolvedListSubscription$ !== null &&
       this.problemUnresolvedListSubscription$ !== null) {
       this.timerReference$.unsubscribe();
+      this.getProblemById$.unsubscribe();
       this.problemResolvedListSubscription$.unsubscribe();
       this.problemUnresolvedListSubscription$.unsubscribe();
     }
