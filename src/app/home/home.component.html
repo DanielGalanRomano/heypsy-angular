@@ -4,8 +4,8 @@
     <img fxFlex="90" src="assets/img/woman.png" alt="">
   </div>
 
-  <div fxLayout="column" fxFlex>
-    <div fxLayout="row">
+  <div fxLayout="column" fxFlex fxLayoutAlign="center none">
+    <div fxLayout="row" fxFlex>
       <mat-form-field fxFlex appearance="outline">
         <mat-label>¿Que esta pasando?</mat-label>
         <input name="problem" [(ngModel)]="problem" matInput placeholder="Me despidieron del trabajo" maxlength="500">
@@ -19,7 +19,26 @@
       </mat-form-field>
     </div>
 
-    <div fxLayout="column" fxLayoutAlign="space-around center" fxFlex="50">
+
+
+    <div *ngIf="!showAllOptions" fxLayout="row" fxLayoutAlign="center center" class="problem-form-button help-request-container">
+      <button mat-raised-button color="primary" class="custom-buttom" (click)="activateAllOptions()"
+        [disabled]="!isProblemDefine()">Pedir consejos
+        anonimos</button>
+    </div>
+
+    <div *ngIf="!showAllOptions" fxLayout="row" fxLayoutAlign="center center" class="problem-form-button">
+      <button mat-stroked-button color="primary" class="custom-buttom" (click)="goToAdvice()">Quiero aconsejar</button>
+    </div>
+
+    <div *ngIf="showAllOptions" fxLayout="row" fxLayoutAlign="center center"
+      class="problem-form-button">
+      <button mat-raised-button color="primary" class="custom-buttom" (click)="sendProblem()"
+        [disabled]="!isFormComplete()">Pedir consejos
+        anonimos</button>
+    </div>
+
+    <!-- <div fxLayout="column" fxLayoutAlign="space-around center" fxFlex="50">
       <div *ngIf="!showAllOptions" fxLayout="row" fxLayoutAlign="center center" class="problem-form-button">
         <button mat-raised-button color="primary" class="custom-buttom" (click)="activateAllOptions()"
           [disabled]="!isProblemDefine()">Pedir consejos
@@ -35,13 +54,12 @@
           [disabled]="!isFormComplete()">Pedir consejos
           anonimos</button>
       </div>
+    </div> -->
+    <div fxLayout="row" fxLayoutAlign="start center" class="terms-and-conditions-option-container">
+      <mat-checkbox [(ngModel)]="termsAndConditionsOption">
+        <u (click)="goToTermsAndConditions()">Acepto terminos y condiciones!</u>
+      </mat-checkbox>
     </div>
-    <div fxLayout="row" fxLayoutAlign="start center"
-    class="terms-and-conditions-option-container">
-    <mat-checkbox [(ngModel)]="termsAndConditionsOption">
-      <u (click)="goToTermsAndConditions()">Acepto terminos y condiciones!</u>
-    </mat-checkbox>
-  </div>
 
   </div>
 </div>

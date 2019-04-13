@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Problem } from './entities/problem';
 import { Conversation } from './entities/conversation';
-
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Consejo } from './entities/consejo';
@@ -22,26 +21,25 @@ export class ManagerService {
   private currentUser;
 
   constructor(private db: AngularFirestore) {
-    // if (this.hasRequestInProcess()) {
-    //   this.deleteUserData();
-    // }
+    this.getUserData();
+
+    if (this.hasRequestInProcess() && !this.checkValidationHours()) {
+      this.deleteUserData();
+    }
   }
 
-
-  public getProblemList(): Problem[] {
-    return this.problemList;
-  }
-
+  /**
+   * Almacena el valor de terminos y condiciones.
+   */
   public setTermsAndConditionsValue(value: boolean): void {
     this.termsAndConditionsValue = value;
   }
 
+  /**
+   * Devuelve el valor de terminos y condiciones.
+   */
   public getTermsAndConditionsValue(): boolean {
     return this.termsAndConditionsValue;
-  }
-
-  public getProblemById(id: string): Problem[] {
-    return this.problemList.filter((item) => item.id === id);
   }
 
   /**
@@ -62,15 +60,11 @@ export class ManagerService {
     return this.db.collection('problems').valueChanges();
   }
 
-  public getConsejos$(): Observable<{}[]> {
-    return this.db.collection('consejos').valueChanges();
-  }
+  public getConsejos$(problemAssociated: string): Observable<{}[]> {
 
-  /**
-   * getConversationById
-   */
-  public getConsejosById$(): Observable<firebase.firestore.QuerySnapshot> {
-    return this.db.collection('consejos').get();
+    return this.db.collection('problems')
+      .doc(problemAssociated)
+      .collection('consejos').valueChanges();
   }
 
   /**
@@ -84,8 +78,6 @@ export class ManagerService {
       requester: requester,
       message: problem,
       scheduleDate: new Date(),
-      assisted: null,
-      resolved: false,
       answers: 0
     };
 
@@ -111,11 +103,12 @@ export class ManagerService {
       problemAssociated: problemAssociated
     };
 
-    this.db.collection('consejos')
-      .doc(newId)
-      .set(newConsejo)
+    this.db.collection('problems')
+      .doc(`${problemAssociated}`)
+      .collection('consejos')
+      .add(newConsejo)
       .then(() => {
-        this.db.doc(`problems/${problemAssociated}`).update({ resolved: true, answers: problem.answers + 1 });
+        this.db.doc(`problems/${problemAssociated}`).update({ answers: problem.answers + 1 });
       });
   }
 
@@ -131,30 +124,34 @@ export class ManagerService {
     localStorage.setItem('User', JSON.stringify(newUser));
   }
 
-
   public getUserData() {
     const jsonUser = localStorage.getItem('User');
-    if (jsonUser !== 'undefined') {
+    if (jsonUser !== 'null' && jsonUser !== null) {
       this.currentUser = JSON.parse(jsonUser);
     } else {
-      this.currentUser = undefined;
+      this.currentUser = null;
     }
 
     return this.currentUser;
   }
 
   private deleteUserData(): void {
-    localStorage.setItem('User', undefined);
+    localStorage.setItem('User', null);
   }
 
   public hasRequestInProcess() {
+    return this.currentUser !== null && this.checkValidationHours();
+  }
+
+  private checkValidationHours(): boolean {
     let diff = 0;
-    if (this.currentUser !== undefined) {
-      const now = moment();
-      const dateToCompare = moment(this.currentUser.scheduleDate);
+    if (this.currentUser !== null && this.currentUser.scheduleDate !== undefined) {
+      const now = moment().minutes(0).seconds(0);
+      const dateToCompare = moment(this.currentUser.scheduleDate).minutes(0).seconds(0);
       diff = now.diff(dateToCompare, 'hours');
+
     }
 
-    return this.currentUser !== undefined && diff < 24;
+    return diff < 24;
   }
 }

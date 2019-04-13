@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit {
       this.openTermsAndConditionsDialog();
     } else {
       this.manager.sendProblem(this.problem, this.username);
-      this.router.navigate(['/conversation/requester']);
+      this.router.navigate(['/conversation/requester/0']);
     }
   }
 

@@ -17,15 +17,13 @@ import * as moment from 'moment';
 })
 export class AdviceComponent implements OnInit, OnDestroy {
 
-  public problemResolvedList: Problem[] = [];
-  public problemUnresolvedList: Problem[] = [];
+  public problemList: Problem[] = [];
   public dateReference: moment.Moment;
   public render: Date;
   public value: number;
-  public currentUser = undefined;
+  public currentUser = null;
   private timerReference$: Subscription = null;
-  private problemUnresolvedListSubscription$: Subscription = null;
-  private problemResolvedListSubscription$: Subscription = null;
+  private problemListSubscription$: Subscription = null;
   private getProblemById$: Subscription = null;
   public answersCount: number = 0;
 
@@ -37,17 +35,24 @@ export class AdviceComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.problemUnresolvedListSubscription$ = this.manager.getProblems$()
-      .pipe(
-        map(response => response.filter((item: any) => {
-          return item.resolved !== undefined && !item.resolved;
-        }))
-      )
-      .subscribe((problemList: Problem[]) => {
-        this.problemUnresolvedList = problemList;
-      });
 
-    if (this.currentUser !== undefined) {
+    if (this.currentUser !== null) {
+      this.problemListSubscription$ = this.manager.getProblems$()
+        .pipe(
+          map(response => response.filter((item: any) => {
+            return this.currentUser.problem.id !== item.id;
+          }))
+        )
+        .subscribe((problemList: Problem[]) => {
+          this.problemList = problemList;
+        });
+    } else {
+      this.problemListSubscription$ = this.manager.getProblems$()
+        .subscribe((problemList: Problem[]) => {
+          this.problemList = problemList;
+        });
+    }
+    if (this.currentUser !== null) {
       this.getProblemById$ = this.manager.getProblemById$().pipe(
         map(response => response.filter((item: any) => {
           return item.id !== undefined && item.id === this.currentUser.problem.id;
@@ -58,30 +63,17 @@ export class AdviceComponent implements OnInit, OnDestroy {
         });
     }
 
-
-    this.manager.getProblems$()
-      .pipe(
-        map(response => response.filter((item: any) => {
-          return item.resolved !== undefined && item.resolved;
-        }))
-      )
-      .subscribe((problemList: Problem[]) => {
-        this.problemResolvedList = problemList;
-      });
-
-    if (this.problemUnresolvedList.length > 0) {
-      this.initCountdown(this.problemUnresolvedList[0].scheduleDate);
+    if (this.problemList.length > 0) {
+      this.initCountdown();
     }
   }
 
   ngOnDestroy() {
     if (this.timerReference$ !== null &&
-      this.problemResolvedListSubscription$ !== null &&
-      this.problemUnresolvedListSubscription$ !== null) {
+      this.problemListSubscription$ !== null) {
       this.timerReference$.unsubscribe();
       this.getProblemById$.unsubscribe();
-      this.problemResolvedListSubscription$.unsubscribe();
-      this.problemUnresolvedListSubscription$.unsubscribe();
+      this.problemListSubscription$.unsubscribe();
     }
   }
 
@@ -95,16 +87,21 @@ export class AdviceComponent implements OnInit, OnDestroy {
     this.router.navigate([`/advice-form/${id}`]);
   }
 
-  public initCountdown(date: Date) {
-    this.dateReference = moment().hours(3).minutes(0).seconds(0);
-    const timer$ = interval(1000);
+  public goToConversation(id: number) {
+    console.log(`${AdviceComponent.name}::goToConversation`);
+    this.router.navigate([`/conversation/requester/${id}`]);
+  }
 
-    this.timerReference$ = timer$.subscribe((v) => {
-      this.dateReference = this.dateReference.subtract(1, 'seconds');
-      // this.value = v * 100 / 10800;
-      this.value = v * 100 / 120;
-      this.render = this.dateReference.toDate();
-    });
+  public initCountdown() {
+    // this.dateReference = moment().hours(3).minutes(0).seconds(0);
+    // const timer$ = interval(1000);
+
+    // this.timerReference$ = timer$.subscribe((v) => {
+    //   this.dateReference = this.dateReference.subtract(1, 'seconds');
+    //   // this.value = v * 100 / 10800;
+    //   this.value = v * 100 / 120;
+    //   this.render = this.dateReference.toDate();
+    // });
 
   }
 

@@ -23,7 +23,7 @@ export class TermsAndConditionsComponent implements OnInit {
   public acceptTermsAndConditions() {
     console.log(`${TermsAndConditionsComponent.name}::acceptTermsAndConditions`);
     this.manager.setTermsAndConditionsValue(true);
-    this.router.navigate(['/problem-form']);
+    this.router.navigate(['/home']);
   }
 
 }

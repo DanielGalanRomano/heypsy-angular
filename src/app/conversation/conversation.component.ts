@@ -24,6 +24,7 @@ export class ConversationComponent implements OnInit, OnDestroy {
 
   public conversations: Conversation[] = [];
 
+  private id: string;
   private role: string;
 
   constructor(
@@ -36,20 +37,27 @@ export class ConversationComponent implements OnInit, OnDestroy {
 
     this.subscription = this.route.params
       .subscribe(params => {
+        const id = params['id'];
         const roleType = params['type'];
-        if (roleType) {
+        if (roleType && id) {
+          this.id = id;
           this.role = roleType;
         }
       });
-    this.getConsejos$ = this.manager.getConsejos$()
-      .subscribe((response: any) => {
-        this.conversations = response;
-      });
+
+    if (this.id !== '0') {
+      this.getConsejos$ = this.manager.getConsejos$(this.id)
+        .subscribe((response: any) => {
+          this.conversations = response;
+        });
+    }
   }
 
   ngOnDestroy() {
-    if (this.subscription !== null || this.getConsejos$ !== null) {
+    if (this.subscription !== null) {
       this.subscription.unsubscribe();
+    }
+    if (this.getConsejos$ !== null) {
       this.getConsejos$.unsubscribe();
     }
   }
@@ -69,14 +77,6 @@ export class ConversationComponent implements OnInit, OnDestroy {
 
   public isAdviser() {
     return this.role !== '' && this.role === 'adviser';
-  }
-
-  /**
-   * refresh
-   */
-  public refresh() {
-    console.log(`${ConversationComponent.name}::refresh`);
-    this.router.navigate(['/conversation/requester']);
   }
 }
 

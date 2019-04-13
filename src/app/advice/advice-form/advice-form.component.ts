@@ -40,7 +40,6 @@ export class AdviceFormComponent implements OnInit, OnDestroy {
       .subscribe(params => {
         this.idAssociated = params['id'];
         if (this.idAssociated) {
-          this.problem = this.manager.getProblemById(this.idAssociated)[0];
           this.getProblemById = this.manager.getProblemById$().pipe(
             map(response => response.filter((item: any) => {
               return item.id !== undefined && item.id === this.idAssociated;
@@ -69,7 +68,7 @@ export class AdviceFormComponent implements OnInit, OnDestroy {
 
     this.manager.sendConsejo(this.message, this.username, this.idAssociated, this.problem);
 
-    this.router.navigate(['/conversation/adviser']);
+    this.router.navigate([`/conversation/adviser/${this.idAssociated}`]);
   }
 
   /**
@@ -85,5 +84,12 @@ export class AdviceFormComponent implements OnInit, OnDestroy {
    */
   public isFormComplete() {
     return this.username !== '' && this.message !== '';
+  }
+
+  /**
+   * problemIsDefine
+   */
+  public problemIsDefine() {
+    return this.problem !== undefined && this.problem !== null;
   }
 }

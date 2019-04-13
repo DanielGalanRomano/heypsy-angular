@@ -23,7 +23,7 @@ export const routes: Routes = [
         component: TermsAndConditionsComponent
     },
     {
-        path: 'conversation/:type',
+        path: 'conversation/:type/:id',
         component: ConversationComponent
     },
     {
