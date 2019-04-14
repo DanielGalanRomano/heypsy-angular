@@ -1,3 +1,17 @@
 <div [@fadeAnimation]="o.isActivated ? o.activatedRoute : ''">
   <router-outlet #o="outlet"></router-outlet>
 </div>
+
+<div *ngIf="showToast" fxFlex fxFlexLayout="row" fxLayoutAlign="center center" class="toast-container">
+  <span fxFlex fxFlexLayout="row" fxLayoutAlign="center center">
+    Descarga la app para Android!
+  </span>
+  <button fxFlex fxFlexLayout="row" fxLayoutAlign="center center" mat-stroked-button color="primary"
+    class="custom-buttom button-toast" (click)="redirectToGooglePlay()">Instalar</button>
+
+  <div fxFlex="10" fxFlexLayout="column" fxLayoutAlign="center center">
+    <button mat-icon-button (click)="hideToast()">
+      <mat-icon>clear</mat-icon>
+    </button>
+  </div>
+</div>

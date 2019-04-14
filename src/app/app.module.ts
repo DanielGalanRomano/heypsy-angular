@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/firestore';
 import { ManagerService } from './manager.service';
 import { NotificationsService } from './notifications.service';
+import { AngularMaterialModule } from './angular-material/angular.material.module';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { NotificationsService } from './notifications.service';
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
+    AngularMaterialModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
   ],

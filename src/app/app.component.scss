@@ -1,0 +1,15 @@
+.toast-container{
+    position: absolute;
+    border-radius: 5px;
+    padding: 6px;
+    right: 20px;
+    top: 8px;
+    background-color: #f3efef;
+    width: 365px;
+}
+
+.button-toast{
+    max-width: 85px !important;
+    max-height: 35px !important;
+    border-color: rgb(239, 58, 93);
+}
