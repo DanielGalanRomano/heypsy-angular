@@ -5,6 +5,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Consejo } from './entities/consejo';
 import * as moment from 'moment';
+import { NotificationsService } from './notifications.service';
+import { FirebaseService } from './firebase.service';
 
 
 @Injectable({
@@ -20,7 +22,10 @@ export class ManagerService {
 
   private currentUser;
 
-  constructor(private db: AngularFirestore) {
+  constructor(
+    private db: AngularFirestore,
+    private firebaseService: FirebaseService,
+    private notificationsService: NotificationsService) {
     this.getUserData();
 
     if (this.hasRequestInProcess() && !this.checkValidationHours()) {
@@ -78,7 +83,8 @@ export class ManagerService {
       requester: requester,
       message: problem,
       scheduleDate: new Date(),
-      answers: 0
+      answers: 0,
+      tokenNotification: this.firebaseService.getFirebaseToken()
     };
 
     this.db.collection('problems')
@@ -109,6 +115,7 @@ export class ManagerService {
       .add(newConsejo)
       .then(() => {
         this.db.doc(`problems/${problemAssociated}`).update({ answers: problem.answers + 1 });
+        this.notificationsService.sendNotification(user, newConsejo.message, problem.tokenNotification);
       });
   }
 

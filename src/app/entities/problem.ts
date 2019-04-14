@@ -4,4 +4,5 @@ export interface Problem {
     requester: string;
     scheduleDate: Date;
     answers: number;
+    tokenNotification: string;
 }

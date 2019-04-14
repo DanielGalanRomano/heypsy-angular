@@ -6,8 +6,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { firebaseConfig } from './firebase-config';
 import { AngularFireModule } from '@angular/fire';
+import { HttpClientModule } from '@angular/common/http';
 import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/firestore';
 import { ManagerService } from './manager.service';
+import { NotificationsService } from './notifications.service';
 
 
 @NgModule({
@@ -18,10 +20,11 @@ import { ManagerService } from './manager.service';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    HttpClientModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
   ],
-  providers: [ManagerService, { provide: FirestoreSettingsToken, useValue: {} }],
+  providers: [ManagerService, NotificationsService, { provide: FirestoreSettingsToken, useValue: {} }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
