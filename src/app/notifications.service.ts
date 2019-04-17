@@ -24,7 +24,7 @@ export class NotificationsService {
     const data = {
       to: token,
       notification: {
-        title: `${user} han respondido tu pedido`,
+        title: `${user} ha respondido tu pedido`,
         body: message,
         sound: "Tri-tone"
       }

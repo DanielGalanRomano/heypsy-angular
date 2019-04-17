@@ -6,19 +6,31 @@
 
   <div fxLayout="column" fxFlex>
     <cdk-virtual-scroll-viewport *ngIf="this.conversations.length > 0" itemSize="50" class="virtual-viewport">
+      <mat-card class="info-card-container" *ngIf="problem !== undefined">
+        <mat-card-content fxLayout="column" fxLayoutAlign="center center">
+          <span>{{problem.requester}} necesita ayuda con:</span>
+          <h2 class="problem-label">{{problem.message}}</h2>
+        </mat-card-content>
+      </mat-card>
       <mat-card class="card-container virtual-item" fxLayout="row" (click)="goToAdviceForm(problem.id)"
         *cdkVirtualFor="let conversation of this.conversations">
         <div fxLayout="column" fxFlex class="card-container">
-          <div fxLayout="row" fxLayoutAlign="center center" class="card-title-section">
-            <span class="advisor-label" *ngIf="!isAdviser()">{{conversation.assistedBy}}</span>
-            <span *ngIf="!isAdviser()">
-              te aconseja:
-            </span>
-            <span *ngIf="isAdviser()">
+          <div fxLayout="row" fxLayoutAlign="start center" class="card-title-section">
+            <!-- <span class="advisor-label" *ngIf="!isAdviser()">{{conversation.assistedBy}}</span> -->
+
+            <div>
+              <span class="assistedBy-label">
+                {{conversation.assistedBy}}
+              </span>
+              <span>
+                aconseja:
+              </span>
+            </div>
+            <!-- <span *ngIf="isAdviser()">
               Aconsejaste:
-            </span>
+            </span> -->
           </div>
-          <div fxLayout="row" fxLayoutAlign="center center" class="card-content-section">{{conversation.message}}</div>
+          <div fxLayout="row" fxLayoutAlign="start center" class="card-content-section">{{conversation.message}}</div>
         </div>
       </mat-card>
 

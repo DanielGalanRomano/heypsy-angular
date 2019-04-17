@@ -5,6 +5,8 @@ import { ManagerService } from '../manager.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { map } from 'rxjs/operators';
+import { Problem } from '../entities/problem';
 
 @Component({
   selector: 'app-conversation',
@@ -21,8 +23,9 @@ export class ConversationComponent implements OnInit, OnDestroy {
    */
   private subscription: Subscription = null;
   private getConsejos$: Subscription = null;
-
+  private getProblemById$: Subscription = null;
   public conversations: Conversation[] = [];
+  public problem: Problem;
 
   private id: string;
   private role: string;
@@ -49,6 +52,14 @@ export class ConversationComponent implements OnInit, OnDestroy {
       this.getConsejos$ = this.manager.getConsejos$(this.id)
         .subscribe((response: any) => {
           this.conversations = response;
+        });
+      this.getProblemById$ = this.manager.getProblemById$().pipe(
+        map(response => response.filter((item: any) => {
+          return item.id !== undefined && item.id === this.id;
+        }))
+      )
+        .subscribe((problem: any) => {
+          this.problem = problem[0];
         });
     }
   }

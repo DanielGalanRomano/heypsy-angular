@@ -2,11 +2,25 @@
   margin: 8px !important;
   border-radius: 5px;
   padding: 0 !important;
+  background-color: lightgray;
+}
+
+.info-card-container {
   background-color: #f4d249;
+  margin: 0 8px 16px 8px;
+}
+
+.problem-label {
+  font-weight: bold;
+}
+
+.assistedBy-label{
+  font-weight: bold;
+  padding-right: px;
 }
 
 .virtual-viewport {
-  height: 400px;
+  height: 545px;
 }
 
 .virtual-item {
