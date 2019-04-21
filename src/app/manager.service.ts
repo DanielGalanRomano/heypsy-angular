@@ -9,7 +9,6 @@ import { NotificationsService } from './notifications.service';
 import { FirebaseService } from './firebase.service';
 import { User } from './entities/user';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -134,13 +133,15 @@ export class ManagerService {
         if (problem.tokenNotification !== null) {
           this.notificationsService.sendNotification(user, newConsejo.message, problem.tokenNotification);
         }
+
+        this.saveUserData(user, null);
       });
   }
 
   /**
    * Save user data.
    */
-  private saveUserData(requester: string, newProblem: Problem) {
+  public saveUserData(requester: string, newProblem: Problem) {
 
     const newUser: User = {
       id: this.createId(),
