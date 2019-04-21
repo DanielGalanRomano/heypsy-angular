@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { ManagerService } from 'src/app/manager.service';
 import { Problem } from 'src/app/entities/problem';
 import { map } from 'rxjs/operators';
+import { BackbuttonService } from 'src/app/backbutton.service';
 
 
 @Component({
@@ -21,18 +22,18 @@ export class AdviceFormComponent implements OnInit, OnDestroy {
   public message: string = '';
   public username: string = '';
   public idAssociated: string = '';
-
-  private getProblemById: Subscription = null;
+  private getProblemById$: Subscription = null;
 
   /**
-   * subscription reference.
+   * Subscription reference.
    */
   private subscription: Subscription = null;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private manager: ManagerService) { }
+    private manager: ManagerService,
+    private backbuttonService: BackbuttonService) { }
 
   ngOnInit() {
 
@@ -40,7 +41,7 @@ export class AdviceFormComponent implements OnInit, OnDestroy {
       .subscribe(params => {
         this.idAssociated = params['id'];
         if (this.idAssociated) {
-          this.getProblemById = this.manager.getProblemById$().pipe(
+          this.getProblemById$ = this.manager.getProblemById$().pipe(
             map(response => response.filter((item: any) => {
               return item.id !== undefined && item.id === this.idAssociated;
             }))
@@ -53,11 +54,12 @@ export class AdviceFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.subscription !== null || this.getProblemById !== null) {
-      // Unsubscribe.
+    if (this.subscription !== null || this.getProblemById$ !== null) {
       this.subscription.unsubscribe();
-      this.getProblemById.unsubscribe();
+      this.getProblemById$.unsubscribe();
     }
+
+    this.backbuttonService.setLasView('/home');
   }
 
   /**

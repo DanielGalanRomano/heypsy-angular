@@ -10,14 +10,13 @@
         <mat-card-content fxLayout="column" fxLayoutAlign="center center">
           <span>{{problem.requester}} necesita ayuda con:</span>
           <h2 class="problem-label">{{problem.message}}</h2>
+          <span>Tiempo restante {{render}}</span>
         </mat-card-content>
       </mat-card>
       <mat-card class="card-container virtual-item" fxLayout="row" (click)="goToAdviceForm(problem.id)"
         *cdkVirtualFor="let conversation of this.conversations">
         <div fxLayout="column" fxFlex class="card-container">
           <div fxLayout="row" fxLayoutAlign="start center" class="card-title-section">
-            <!-- <span class="advisor-label" *ngIf="!isAdviser()">{{conversation.assistedBy}}</span> -->
-
             <div>
               <span class="assistedBy-label">
                 {{conversation.assistedBy}}
@@ -26,9 +25,6 @@
                 aconseja:
               </span>
             </div>
-            <!-- <span *ngIf="isAdviser()">
-              Aconsejaste:
-            </span> -->
           </div>
           <div fxLayout="row" fxLayoutAlign="start center" class="card-content-section">{{conversation.message}}</div>
         </div>
@@ -39,9 +35,6 @@
 
       <div>
         <h4>Todavia no recibiste ningun consejo</h4>
-      </div>
-      <div (click)="refresh()">
-        <span>Refresca aqui</span>
       </div>
     </div>
   </div>

@@ -16,8 +16,12 @@ $color-primary:#ef3a5d;
 
 .info-container {
   padding: 8px 8px 8px 8px;
-  // max-width: 312px;
   word-break: break-all;
+}
+
+.expiration-date{
+  font-style: italic;
+  color: #ef3a5d;
 }
 
 .answers-count{

@@ -82,7 +82,8 @@ export class ManagerService {
       id: newId,
       requester: requester,
       message: problem,
-      scheduleDate: new Date(),
+      scheduleDate: moment().format('DD/MM/YYYY HH:mm:ss'),
+      expirationDate: moment().add(24, 'hours').format('DD/MM/YYYY HH:mm:ss'),
       answers: 0,
       tokenNotification: this.firebaseService.getFirebaseToken()
     };
@@ -105,7 +106,8 @@ export class ManagerService {
       id: newId,
       assistedBy: user,
       message: consejo,
-      scheduleDate: new Date(),
+      scheduleDate: moment().format('DD/MM/YYYY HH:mm:ss'),
+      expirationDate: moment().add(24, 'hours').format('DD/MM/YYYY HH:mm:ss'),
       problemAssociated: problemAssociated
     };
 
@@ -125,7 +127,7 @@ export class ManagerService {
       id: this.createId(),
       user: requester,
       problem: newProblem,
-      scheduleDate: new Date()
+      scheduleDate: new Date().toDateString()
     };
 
     localStorage.setItem('User', JSON.stringify(newUser));

@@ -1,7 +1,9 @@
+
 export interface Consejo {
     id: string;
     message: string;
     assistedBy: string;
-    scheduleDate: Date;
+    scheduleDate: string;
+    expirationDate: string;
     problemAssociated: string;
 }

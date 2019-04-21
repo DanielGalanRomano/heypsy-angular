@@ -1,8 +1,11 @@
+
 export interface Problem {
     id: string;
     message: string;
     requester: string;
-    scheduleDate: Date;
+    scheduleDate: string;
+    expirationDate: string;
     answers: number;
     tokenNotification: string;
+    expirationDinamyDate?: string;
 }

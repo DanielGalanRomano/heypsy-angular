@@ -6,6 +6,7 @@ import { Problem } from '../entities/problem';
 import { interval, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as moment from 'moment';
+import { BackbuttonService } from '../backbutton.service';
 
 @Component({
   selector: 'app-advice',
@@ -27,9 +28,12 @@ export class AdviceComponent implements OnInit, OnDestroy {
   private getProblemById$: Subscription = null;
   public answersCount: number = 0;
 
+  private setIntervalReference = null;
+
   constructor(
     private router: Router,
-    private manager: ManagerService) {
+    private manager: ManagerService,
+    private backbuttonService: BackbuttonService) {
 
     this.currentUser = this.manager.getUserData();
   }
@@ -45,11 +49,17 @@ export class AdviceComponent implements OnInit, OnDestroy {
         )
         .subscribe((problemList: Problem[]) => {
           this.problemList = problemList;
+          if (this.problemList.length > 0) {
+            this.initCountdown();
+          }
         });
     } else {
       this.problemListSubscription$ = this.manager.getProblems$()
         .subscribe((problemList: Problem[]) => {
           this.problemList = problemList;
+          if (this.problemList.length > 0) {
+            this.initCountdown();
+          }
         });
     }
     if (this.currentUser !== null) {
@@ -75,34 +85,52 @@ export class AdviceComponent implements OnInit, OnDestroy {
       this.getProblemById$.unsubscribe();
       this.problemListSubscription$.unsubscribe();
     }
+
+    clearInterval(this.setIntervalReference);
+
+    this.backbuttonService.setLasView('/advice');
   }
 
+  /**
+   * Redirect to home view.
+   */
   public goToHome() {
     console.log(`${AdviceComponent.name}::goToHome`);
     this.router.navigate(['/home']);
   }
 
+  /**
+   * Redirect to advice view.
+   */
   public goToAdviceForm(id: number) {
     console.log(`${AdviceComponent.name}::goToAdviceForm`);
     this.router.navigate([`/advice-form/${id}`]);
   }
 
+  /**
+   * Redirect to conversation view.
+   */
   public goToConversation(id: number) {
     console.log(`${AdviceComponent.name}::goToConversation`);
     this.router.navigate([`/conversation/requester/${id}`]);
   }
 
+  /**
+   * Init countDown.
+   */
   public initCountdown() {
-    // this.dateReference = moment().hours(3).minutes(0).seconds(0);
-    // const timer$ = interval(1000);
 
-    // this.timerReference$ = timer$.subscribe((v) => {
-    //   this.dateReference = this.dateReference.subtract(1, 'seconds');
-    //   // this.value = v * 100 / 10800;
-    //   this.value = v * 100 / 120;
-    //   this.render = this.dateReference.toDate();
-    // });
-
+    this.setIntervalReference = setInterval(() => {
+      this.problemList
+        .forEach((item) => {
+          const expirationDate = moment(item.expirationDate, 'DD/MM/YYYY HH:mm:ss');
+          const timeLeft = moment(expirationDate.diff(moment())); // get difference between now and timestamp
+          const formatted = timeLeft.format('HH:mm:ss'); // make pretty
+          this.value = expirationDate.diff(moment(), 'seconds');
+          item.expirationDinamyDate = formatted;
+        });
+    },
+      1000);
   }
 
   /**

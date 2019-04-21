@@ -11,6 +11,7 @@ import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/fi
 import { ManagerService } from './manager.service';
 import { NotificationsService } from './notifications.service';
 import { AngularMaterialModule } from './angular-material/angular.material.module';
+import { BackbuttonService } from './backbutton.service';
 
 
 @NgModule({
@@ -26,7 +27,7 @@ import { AngularMaterialModule } from './angular-material/angular.material.modul
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
   ],
-  providers: [ManagerService, NotificationsService, { provide: FirestoreSettingsToken, useValue: {} }],
+  providers: [ManagerService, NotificationsService, BackbuttonService, { provide: FirestoreSettingsToken, useValue: {} }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

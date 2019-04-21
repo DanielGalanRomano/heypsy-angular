@@ -39,7 +39,7 @@
           </div>
           <div fxLayout="column">
             <div fxLayout="row" fxFlex fxLayoutAlign="end center" class="time-label">
-              <span>{{problem.scheduleDate.toDate() | date:'HH:mm:ss'}}</span>
+              <span class="expiration-date">Tiempo restante {{problem.expirationDinamyDate}}</span>
             </div>
             <div fxLayout="row" fxFlex>
               <mat-progress-bar mode="determinate" value="{{value}}"></mat-progress-bar>

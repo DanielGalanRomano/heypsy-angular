@@ -1,10 +1,10 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { fadeAnimation } from 'src/app/app-transition';
 import { Router } from '@angular/router';
 import { ManagerService } from 'src/app/manager.service';
-import { Person } from 'src/app/entities/person';
 import { FirebaseService } from '../firebase.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { BackbuttonService } from '../backbutton.service';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +14,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
     fadeAnimation
   ]
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
   public problem: string = '';
   public username: string = '';
@@ -26,7 +26,8 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private manager: ManagerService,
     public dialog: MatDialog,
-    private firebase: FirebaseService) { }
+    private firebase: FirebaseService,
+    private backbuttonService: BackbuttonService) { }
 
   ngOnInit() {
     this.termsAndConditionsOption = this.manager.getTermsAndConditionsValue();
@@ -69,9 +70,16 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  /**
+   * Open the terms and condition dialog.
+   */
   public openTermsAndConditionsDialog() {
     this.dialog.open(DialogHomeComponent);
   }
+
+  /**
+   * Open the hour dialog.
+   */
   public openHourValidationDialog() {
     this.dialog.open(DialogHourValidationComponent);
   }
@@ -95,6 +103,10 @@ export class HomeComponent implements OnInit {
    */
   public activateAllOptions() {
     return this.showAllOptions = true;
+  }
+
+  public ngOnDestroy() {
+    this.backbuttonService.setLasView('/home');
   }
 }
 
