@@ -25,8 +25,9 @@
     </div>
     <cdk-virtual-scroll-viewport *ngIf="this.problemList.length > 0" itemSize="50" class="virtual-viewport">
       <div>Aconseja!</div>
-      <mat-card class="card-container virtual-item" fxLayout="row" (click)="goToAdviceForm(problem.id)"
-        *cdkVirtualFor="let problem of this.problemList">
+      <mat-card class="card-container virtual-item" fxLayout="row" (click)="goTo(problem)"
+        *cdkVirtualFor="let problem of this.problemList" [ngClass]="{
+          'is-assisted': problemIsAssistedByMe(problem)}">
         <div fxLayout="column" fxFlex>
           <div fxLayout="row" class="info-container content">
             <span class="user-name">{{problem.requester}}:</span>

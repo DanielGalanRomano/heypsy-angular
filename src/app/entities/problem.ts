@@ -8,4 +8,5 @@ export interface Problem {
     answers: number;
     tokenNotification: string;
     expirationDinamyDate?: string;
+    assistedByArr: string[];
 }

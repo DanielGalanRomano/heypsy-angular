@@ -3,10 +3,11 @@ import { fadeAnimation } from '../app-transition';
 import { Router } from '@angular/router';
 import { ManagerService } from '../manager.service';
 import { Problem } from '../entities/problem';
-import { interval, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { BackbuttonService } from '../backbutton.service';
+import { User } from '../entities/user';
 
 @Component({
   selector: 'app-advice',
@@ -22,7 +23,7 @@ export class AdviceComponent implements OnInit, OnDestroy {
   public dateReference: moment.Moment;
   public render: Date;
   public value: number;
-  public currentUser = null;
+  public currentUser: User = null;
   private timerReference$: Subscription = null;
   private problemListSubscription$: Subscription = null;
   private getProblemById$: Subscription = null;
@@ -34,7 +35,6 @@ export class AdviceComponent implements OnInit, OnDestroy {
     private router: Router,
     private manager: ManagerService,
     private backbuttonService: BackbuttonService) {
-
     this.currentUser = this.manager.getUserData();
   }
 
@@ -91,6 +91,15 @@ export class AdviceComponent implements OnInit, OnDestroy {
     this.backbuttonService.setLasView('/advice');
   }
 
+  public goTo(problem: Problem) {
+    const id: number = <any>problem.id;
+    if (this.problemIsAssistedByMe(problem)) {
+      this.goToConversation(id);
+    } else {
+      this.goToAdviceForm(id);
+    }
+  }
+
   /**
    * Redirect to home view.
    */
@@ -131,6 +140,13 @@ export class AdviceComponent implements OnInit, OnDestroy {
         });
     },
       1000);
+  }
+
+  /**
+   * Evaluate if the problem is assisted by me.
+   */
+  public problemIsAssistedByMe(problem: Problem) {
+    return problem.assistedByArr.length > 0 && problem.assistedByArr.indexOf(this.currentUser.id) > -1;
   }
 
   /**

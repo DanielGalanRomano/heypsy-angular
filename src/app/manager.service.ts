@@ -7,6 +7,7 @@ import { Consejo } from './entities/consejo';
 import * as moment from 'moment';
 import { NotificationsService } from './notifications.service';
 import { FirebaseService } from './firebase.service';
+import { User } from './entities/user';
 
 
 @Injectable({
@@ -20,7 +21,7 @@ export class ManagerService {
 
   private termsAndConditionsValue = false;
 
-  private currentUser;
+  private currentUser: User;
 
   constructor(
     private db: AngularFirestore,
@@ -54,6 +55,9 @@ export class ManagerService {
     return this.db.createId();
   }
 
+  /**
+   * Return the problems list by id.
+   */
   public getProblemById$(): Observable<{}[]> {
     return this.db.collection('problems').valueChanges();
   }
@@ -65,8 +69,10 @@ export class ManagerService {
     return this.db.collection('problems').valueChanges();
   }
 
+  /**
+   * Return the consejos list.
+   */
   public getConsejos$(problemAssociated: string): Observable<{}[]> {
-
     return this.db.collection('problems')
       .doc(problemAssociated)
       .collection('consejos').valueChanges();
@@ -85,7 +91,8 @@ export class ManagerService {
       scheduleDate: moment().format('DD/MM/YYYY HH:mm:ss'),
       expirationDate: moment().add(24, 'hours').format('DD/MM/YYYY HH:mm:ss'),
       answers: 0,
-      tokenNotification: this.firebaseService.getFirebaseToken()
+      tokenNotification: this.firebaseService.getFirebaseToken(),
+      assistedByArr: []
     };
 
     this.db.collection('problems')
@@ -116,14 +123,26 @@ export class ManagerService {
       .collection('consejos')
       .add(newConsejo)
       .then(() => {
-        this.db.doc(`problems/${problemAssociated}`).update({ answers: problem.answers + 1 });
-        this.notificationsService.sendNotification(user, newConsejo.message, problem.tokenNotification);
+
+        const newArray: string[] = [...problem.assistedByArr, this.currentUser.id];
+        this.db.doc(`problems/${problemAssociated}`)
+          .update({ answers: problem.answers + 1 });
+
+        this.db.doc(`problems/${problemAssociated}`)
+          .update({ assistedByArr: newArray });
+
+        if (problem.tokenNotification !== null) {
+          this.notificationsService.sendNotification(user, newConsejo.message, problem.tokenNotification);
+        }
       });
   }
 
+  /**
+   * Save user data.
+   */
   private saveUserData(requester: string, newProblem: Problem) {
 
-    const newUser = {
+    const newUser: User = {
       id: this.createId(),
       user: requester,
       problem: newProblem,
@@ -133,6 +152,9 @@ export class ManagerService {
     localStorage.setItem('User', JSON.stringify(newUser));
   }
 
+  /**
+   * Return user data.
+   */
   public getUserData() {
     const jsonUser = localStorage.getItem('User');
     if (jsonUser !== 'null' && jsonUser !== null) {
@@ -144,21 +166,29 @@ export class ManagerService {
     return this.currentUser;
   }
 
+  /**
+   * Delete user data.
+   */
   private deleteUserData(): void {
     localStorage.setItem('User', null);
   }
 
+  /**
+   * Evaluate is request in progress.
+   */
   public hasRequestInProcess() {
     return this.currentUser !== null && this.checkValidationHours();
   }
 
+  /**
+   * Check hour validation session.
+   */
   private checkValidationHours(): boolean {
     let diff = 0;
     if (this.currentUser !== null && this.currentUser.scheduleDate !== undefined) {
       const now = moment().minutes(0).seconds(0);
       const dateToCompare = moment(this.currentUser.scheduleDate).minutes(0).seconds(0);
       diff = now.diff(dateToCompare, 'hours');
-
     }
 
     return diff < 24;
