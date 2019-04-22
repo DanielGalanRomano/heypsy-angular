@@ -22,7 +22,6 @@ export class AdviceComponent implements OnInit, OnDestroy {
   public problemList: Problem[] = [];
   public dateReference: moment.Moment;
   public render: Date;
-  public value: number;
   public currentUser: User = null;
   private timerReference$: Subscription = null;
   private problemListSubscription$: Subscription = null;
@@ -48,7 +47,7 @@ export class AdviceComponent implements OnInit, OnDestroy {
           }))
         )
         .subscribe((problemList: Problem[]) => {
-          this.problemList = problemList;
+          this.problemList = problemList.filter((item) => !this.check24Hours(item));
           if (this.problemList.length > 0) {
             this.initCountdown();
           }
@@ -56,7 +55,7 @@ export class AdviceComponent implements OnInit, OnDestroy {
     } else {
       this.problemListSubscription$ = this.manager.getProblems$()
         .subscribe((problemList: Problem[]) => {
-          this.problemList = problemList;
+          this.problemList = problemList.filter((item) => !this.check24Hours(item));
           if (this.problemList.length > 0) {
             this.initCountdown();
           }
@@ -89,6 +88,13 @@ export class AdviceComponent implements OnInit, OnDestroy {
     clearInterval(this.setIntervalReference);
 
     this.backbuttonService.setLasView('/advice');
+  }
+
+  private check24Hours(problem: Problem) {
+    const now = moment();
+    const dateReference = moment(problem.expirationDate);
+
+    return now.diff(dateReference, 'hours') > 24;
   }
 
   public goTo(problem: Problem) {
@@ -133,9 +139,10 @@ export class AdviceComponent implements OnInit, OnDestroy {
       this.problemList
         .forEach((item) => {
           const expirationDate = moment(item.expirationDate, 'DD/MM/YYYY HH:mm:ss');
-          const timeLeft = moment(expirationDate.diff(moment())); // get difference between now and timestamp
-          const formatted = timeLeft.format('HH:mm:ss'); // make pretty
-          this.value = expirationDate.diff(moment(), 'seconds');
+          const timeLeft = moment(expirationDate.diff(moment()));
+          const formatted = timeLeft.format('HH:mm:ss');
+          const hoursDiff: number = expirationDate.diff(moment(), 'hours');
+          item.expirationValue = hoursDiff * 100 / 24;
           item.expirationDinamyDate = formatted;
         });
     },
