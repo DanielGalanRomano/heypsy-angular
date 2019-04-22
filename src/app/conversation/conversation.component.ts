@@ -106,8 +106,8 @@ export class ConversationComponent implements OnInit, OnDestroy {
 
     this.timerReference$ = timer$.subscribe((v) => {
       const expirationDate = moment(this.problem.expirationDate, 'DD/MM/YYYY HH:mm:ss');
-      const timeLeft = moment(expirationDate.diff(moment())); // get difference between now and timestamp
-      const formatted = timeLeft.format('HH:mm:ss'); // make pretty
+      const timeLeft = moment(expirationDate.diff(moment())).add(3, 'hours');
+      const formatted = timeLeft.format('HH:mm:ss');
 
       this.render = formatted;
     });

@@ -139,11 +139,15 @@ export class AdviceComponent implements OnInit, OnDestroy {
       this.problemList
         .forEach((item) => {
           const expirationDate = moment(item.expirationDate, 'DD/MM/YYYY HH:mm:ss');
-          const timeLeft = moment(expirationDate.diff(moment()));
+          const now = moment();
+          const timeLeft = moment(expirationDate.diff(now)).add(3, 'hours');
+          const hours = expirationDate.diff(now, 'hours');
+          const minutes = expirationDate.diff(now, 'minutes');
           const formatted = timeLeft.format('HH:mm:ss');
           const hoursDiff: number = expirationDate.diff(moment(), 'hours');
           item.expirationValue = hoursDiff * 100 / 24;
-          item.expirationDinamyDate = formatted;
+          // item.expirationDinamyDate = formatted;
+          item.expirationDinamyDate = hours > 1 ? `${hours} horas` : `${minutes} minutos`;
         });
     },
       1000);

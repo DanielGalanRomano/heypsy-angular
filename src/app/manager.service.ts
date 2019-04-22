@@ -122,13 +122,15 @@ export class ManagerService {
       .collection('consejos')
       .add(newConsejo)
       .then(() => {
+        if (this.currentUser !== null) {
+          const newArray: string[] = [...problem.assistedByArr, this.currentUser.id];
 
-        const newArray: string[] = [...problem.assistedByArr, this.currentUser.id];
+          this.db.doc(`problems/${problemAssociated}`)
+            .update({ assistedByArr: newArray });
+        }
+
         this.db.doc(`problems/${problemAssociated}`)
           .update({ answers: problem.answers + 1 });
-
-        this.db.doc(`problems/${problemAssociated}`)
-          .update({ assistedByArr: newArray });
 
         if (problem.tokenNotification !== null) {
           this.notificationsService.sendNotification(user, newConsejo.message, problem.tokenNotification);
