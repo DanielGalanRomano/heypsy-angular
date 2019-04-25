@@ -22,11 +22,14 @@ export class ManagerService {
 
   private currentUser: User;
 
+  private currentProblem: Problem;
+
   constructor(
     private db: AngularFirestore,
     private firebaseService: FirebaseService,
     private notificationsService: NotificationsService) {
     this.getUserData();
+    this.getCurrentProblem();
 
     if (this.hasRequestInProcess() && !this.checkValidationHours()) {
       this.deleteUserData();
@@ -82,9 +85,15 @@ export class ManagerService {
    */
   public sendProblem(problem: string, requester: string): void {
     console.log(`${ManagerService.name}::sendProblem`);
+
+    if (this.currentUser === undefined || this.currentUser === null) {
+      this.createUser(requester, null);
+    }
+
     const newId = this.createId();
     const newProblem: Problem = {
       id: newId,
+      idRequester: this.currentUser.id,
       requester: requester,
       message: problem,
       scheduleDate: moment().format('DD/MM/YYYY HH:mm:ss'),
@@ -98,7 +107,7 @@ export class ManagerService {
       .doc(newId)
       .set(newProblem)
       .then(() => {
-        this.saveUserData(requester, newProblem);
+        this.saveProblem(newProblem);
       });
   }
 
@@ -116,6 +125,10 @@ export class ManagerService {
       expirationDate: moment().add(24, 'hours').format('DD/MM/YYYY HH:mm:ss'),
       problemAssociated: problemAssociated
     };
+
+    if (this.currentUser === undefined || this.currentUser === null) {
+      this.createUser(user, null);
+    }
 
     this.db.collection('problems')
       .doc(`${problemAssociated}`)
@@ -135,24 +148,31 @@ export class ManagerService {
         if (problem.tokenNotification !== null) {
           this.notificationsService.sendNotification(user, newConsejo.message, problem.tokenNotification);
         }
-
-        this.saveUserData(user, null);
       });
   }
 
   /**
    * Save user data.
    */
-  public saveUserData(requester: string, newProblem: Problem) {
+  public saveProblem(newProblem: Problem) {
 
+    localStorage.setItem('Problem', JSON.stringify(newProblem));
+  }
+
+  /**
+   * Create a new user.
+   */
+  public createUser(user, tokenNotification): void {
     const newUser: User = {
       id: this.createId(),
-      user: requester,
-      problem: newProblem,
-      scheduleDate: new Date().toDateString()
+      user: user,
+      tokenNotifications: tokenNotification
     };
 
+    this.currentUser = newUser;
+
     localStorage.setItem('User', JSON.stringify(newUser));
+
   }
 
   /**
@@ -170,6 +190,15 @@ export class ManagerService {
   }
 
   /**
+   * Return the current problem.
+   */
+  public getCurrentProblem() {
+    const jsonProblem = localStorage.getItem('Problem');
+    this.currentProblem = JSON.parse(jsonProblem);
+    return this.currentProblem;
+  }
+
+  /**
    * Delete user data.
    */
   private deleteUserData(): void {
@@ -180,7 +209,8 @@ export class ManagerService {
    * Evaluate is request in progress.
    */
   public hasRequestInProcess() {
-    return this.currentUser !== null && this.checkValidationHours();
+
+    return this.currentProblem !== null && this.currentProblem !== undefined && this.checkValidationHours();
   }
 
   /**
@@ -188,9 +218,11 @@ export class ManagerService {
    */
   private checkValidationHours(): boolean {
     let diff = 0;
-    if (this.currentUser !== null && this.currentUser.scheduleDate !== undefined) {
+    if (this.currentProblem !== null && this.currentProblem.scheduleDate !== undefined) {
       const now = moment().minutes(0).seconds(0);
-      const dateToCompare = moment(this.currentUser.scheduleDate).minutes(0).seconds(0);
+      const dateToCompare = moment(this.currentProblem.scheduleDate, 'DD/MM/YYYY HH:mm:ss');
+
+      // const dateToCompare = moment(this.currentProblem.scheduleDate).minutes(0).seconds(0);
       diff = now.diff(dateToCompare, 'hours');
     }
 

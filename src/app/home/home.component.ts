@@ -31,7 +31,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.termsAndConditionsOption = this.manager.getTermsAndConditionsValue();
-    this.firebase.initFirebase();
+
+    try {
+      this.firebase.initFirebase();
+    } catch (error) {
+
+    }
   }
 
   /**
@@ -39,8 +44,8 @@ export class HomeComponent implements OnInit, OnDestroy {
    */
   public sendProblem() {
     console.log(`${HomeComponent.name}::sendProblem username %o , message %o`, this.username, this.problem);
-    const validationHours: boolean = this.manager.hasRequestInProcess();
-    if (validationHours) {
+    const problemExist: boolean = this.manager.hasRequestInProcess();
+    if (problemExist) {
       this.openHourValidationDialog();
     } else if (!this.termsAndConditionsOption) {
       this.openTermsAndConditionsDialog();

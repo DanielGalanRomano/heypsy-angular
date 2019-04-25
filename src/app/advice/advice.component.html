@@ -7,12 +7,12 @@
   <div fxLayout="column" fxFlex>
 
     <!-- <cdk-virtual-scroll-viewport *ngIf="this.problemList.length > 0" itemSize="50" class="virtual-viewport"> -->
-    <div *ngIf="currentUser !== null">
+    <div *ngIf="currentProblem !== null">
       <div>Tu pedido de consejo!</div>
-      <mat-card class="card-container" fxLayout="row" (click)="goToConversation(currentUser.problem.id)">
+      <mat-card class="card-container" fxLayout="row" (click)="goToConversation(currentProblem.id)">
         <div fxLayout="column" fxFlex>
           <div fxLayout="row" fxFlex class="info-container">
-            <span>{{currentUser.problem.message}}</span>
+            <span>{{currentProblem.message}}</span>
             <div fxLayout="row" fxFlex fxLayoutAlign="end center">
               <span class="answers-count" *ngIf="answersCount > 0">{{answersCount}}</span>
               <i class="material-icons reply-icon">

@@ -23,6 +23,7 @@ export class AdviceComponent implements OnInit, OnDestroy {
   public dateReference: moment.Moment;
   public render: Date;
   public currentUser: User = null;
+  public currentProblem: Problem = null;
   private timerReference$: Subscription = null;
   private problemListSubscription$: Subscription = null;
   private getProblemById$: Subscription = null;
@@ -35,19 +36,20 @@ export class AdviceComponent implements OnInit, OnDestroy {
     private manager: ManagerService,
     private backbuttonService: BackbuttonService) {
     this.currentUser = this.manager.getUserData();
+    this.currentProblem = this.manager.getCurrentProblem();
   }
 
   ngOnInit() {
 
-    if (this.currentUser !== null) {
+    if (this.currentUser !== null && this.currentProblem) {
       this.problemListSubscription$ = this.manager.getProblems$()
         .pipe(
           map(response => response.filter((item: any) => {
-            return this.currentUser.problem.id !== item.id;
+            return this.currentProblem.id !== item.id;
           }))
         )
         .subscribe((problemList: Problem[]) => {
-          this.problemList = problemList.filter((item) => !this.check24Hours(item));
+          this.problemList = problemList.filter((item) => !this.check24Hours(item) && item.idRequester !== this.currentUser.id);
           if (this.problemList.length > 0) {
             this.initCountdown();
           }
@@ -55,7 +57,7 @@ export class AdviceComponent implements OnInit, OnDestroy {
     } else {
       this.problemListSubscription$ = this.manager.getProblems$()
         .subscribe((problemList: Problem[]) => {
-          this.problemList = problemList.filter((item) => !this.check24Hours(item));
+          this.problemList = problemList.filter((item) => !this.check24Hours(item) && item.idRequester !== this.currentUser.id);
           if (this.problemList.length > 0) {
             this.initCountdown();
           }
@@ -64,7 +66,7 @@ export class AdviceComponent implements OnInit, OnDestroy {
     if (this.currentUser !== null) {
       this.getProblemById$ = this.manager.getProblemById$().pipe(
         map(response => response.filter((item: any) => {
-          return item.id !== undefined && item.id === this.currentUser.problem.id;
+          return item.id !== undefined && item.id === this.currentProblem.id;
         }))
       )
         .subscribe((problem: any) => {
@@ -92,9 +94,10 @@ export class AdviceComponent implements OnInit, OnDestroy {
 
   private check24Hours(problem: Problem) {
     const now = moment();
-    const dateReference = moment(problem.expirationDate);
+    const dateReference = moment(problem.expirationDate, 'DD/MM/YYYY HH:mm:ss');
+    const hoursDiff: number = now.diff(dateReference, 'hours');
 
-    return now.diff(dateReference, 'hours') > 24;
+    return hoursDiff > 24;
   }
 
   public goTo(problem: Problem) {
@@ -146,7 +149,6 @@ export class AdviceComponent implements OnInit, OnDestroy {
           const formatted = timeLeft.format('HH:mm:ss');
           const hoursDiff: number = expirationDate.diff(moment(), 'hours');
           item.expirationValue = hoursDiff * 100 / 24;
-          // item.expirationDinamyDate = formatted;
           item.expirationDinamyDate = hours > 1 ? `${hours} horas` : `${minutes} minutos`;
         });
     },

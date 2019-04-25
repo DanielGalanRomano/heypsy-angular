@@ -1,6 +1,7 @@
 
 export interface Problem {
     id: string;
+    idRequester: string;
     message: string;
     requester: string;
     scheduleDate: string;
