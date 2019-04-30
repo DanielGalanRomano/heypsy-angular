@@ -41,7 +41,7 @@ export class AdviceComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    if (this.currentUser !== null && this.currentProblem) {
+    if (this.currentUser !== null && this.currentProblem !== null) {
       this.problemListSubscription$ = this.manager.getProblems$()
         .pipe(
           map(response => response.filter((item: any) => {
@@ -57,7 +57,7 @@ export class AdviceComponent implements OnInit, OnDestroy {
     } else {
       this.problemListSubscription$ = this.manager.getProblems$()
         .subscribe((problemList: Problem[]) => {
-          this.problemList = problemList.filter((item) => !this.check24Hours(item) && item.idRequester !== this.currentUser.id);
+          this.problemList = problemList.filter((item) => !this.check24Hours(item));
           if (this.problemList.length > 0) {
             this.initCountdown();
           }
@@ -159,7 +159,7 @@ export class AdviceComponent implements OnInit, OnDestroy {
    * Evaluate if the problem is assisted by me.
    */
   public problemIsAssistedByMe(problem: Problem) {
-    return problem.assistedByArr.length > 0 && problem.assistedByArr.indexOf(this.currentUser.id) > -1;
+    return this.currentUser !== null && problem.assistedByArr.length > 0 && problem.assistedByArr.indexOf(this.currentUser.id) > -1;
   }
 
   /**
