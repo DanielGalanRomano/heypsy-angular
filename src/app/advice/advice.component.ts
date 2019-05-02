@@ -149,7 +149,7 @@ export class AdviceComponent implements OnInit, OnDestroy {
           const formatted = timeLeft.format('HH:mm:ss');
           const hoursDiff: number = expirationDate.diff(moment(), 'hours');
           item.expirationValue = hoursDiff * 100 / 24;
-          item.expirationDinamyDate = hours > 1 ? `${hours} horas` : `${minutes} minutos`;
+          item.expirationDinamyDate = hours > 1 ? `${hours} horas` : minutes > 0 ? `${minutes} minutos` : `${0} minutos`;
         });
     },
       1000);
