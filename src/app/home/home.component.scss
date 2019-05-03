@@ -9,9 +9,6 @@
     padding-top: 25px;
   }
 
-  .md-container{
-    flex: 1 1 auto !important;
-  }
   
   .terms-and-conditions-option-container {
     padding-top: 16px;
@@ -19,6 +16,7 @@
   
   .problem-container {
     padding: 16px 16px 32px 16px;
+    min-height: 100%;
   }
   
   .mat-stroked-button{

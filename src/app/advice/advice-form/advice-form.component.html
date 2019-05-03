@@ -1,7 +1,8 @@
-<div fxFlexFill class="md-container general-container" fxLayout="column" *ngIf="problemIsDefine()">
+<div class="md-container general-container" *ngIf="problemIsDefine()" fxLayout="column"
+  fxLayoutAlign="space-between none">
 
-  <div fxLayout="column" fxFlex="20" fxLayoutAlign="center start">
-    <img fxFlex="40" src="assets/img/logo-lg.png" alt="">
+  <div fxLayoutAlign="start center">
+    <img src="assets/img/logo-lg.png" class="logo-container" alt="">
   </div>
 
   <div>
@@ -12,35 +13,30 @@
       </mat-card-content>
     </mat-card>
 
-    <form fxLayout="column">
-      <div fxLayout="row" fxFlex>
-        <mat-form-field fxFlex appearance="outline">
-          <mat-label>¿Como te llamas?</mat-label>
-          <input name="username" [(ngModel)]="username" matInput placeholder="Ingresa solo tu nombre">
-        </mat-form-field>
-      </div>
+    <div fxLayout="row">
+      <mat-form-field fxFlex appearance="outline">
+        <mat-label>¿Como te llamas?</mat-label>
+        <input name="username" [(ngModel)]="username" matInput placeholder="Ingresa solo tu nombre">
+      </mat-form-field>
+    </div>
 
-      <div fxLayout="row" fxFlex>
+    <div fxLayout="row">
+      <mat-form-field fxFlex>
+        <textarea matInput placeholder="Textarea" rows="5" name="message" [(ngModel)]="message" maxlength="1000"
+          placeholder="Escribe algo genuino"></textarea>
+        <mat-hint align="start"><strong>Tu consejo es 100% anonimo</strong> </mat-hint>
+        <mat-hint align="end">{{message.length}} / 1000</mat-hint>
+      </mat-form-field>
+    </div>
 
-        <mat-form-field fxFlex>
-          <textarea matInput placeholder="Textarea" rows="5" name="message" [(ngModel)]="message" maxlength="1000"
-            placeholder="Escribe algo genuino"></textarea>
-          <mat-hint align="start"><strong>Tu consejo es 100% anonimo</strong> </mat-hint>
-          <mat-hint align="end">{{message.length}} / 1000</mat-hint>
-        </mat-form-field>
+    <div fxLayout="row" class="button-container" fxLayoutAlign="center center" color="primary">
+      <button mat-raised-button color="primary" class="custom-buttom" (click)="sendConsejo()"
+        [disabled]="!isFormComplete()">Enviar consejo</button>
+    </div>
 
-      </div>
-    </form>
-  </div>
-
-  <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between center"></div>
-  <div fxLayout="row" class="button-container" fxLayoutAlign="center center" color="primary">
-    <button mat-raised-button color="primary" class="custom-buttom" (click)="sendConsejo()"
-      [disabled]="!isFormComplete()">Enviar consejo</button>
-  </div>
-
-  <div fxLayout="row" class="button-container" fxLayoutAlign="center center" color="primary">
-    <button mat-raised-button color="primary" class="custom-buttom" (click)="goToAdviceList()">Volver a la
-      lista</button>
+    <div fxLayout="row" class="button-container" fxLayoutAlign="center center" color="primary">
+      <button mat-raised-button color="primary" class="custom-buttom" (click)="goToAdviceList()">Volver a la
+        lista</button>
+    </div>
   </div>
 </div>

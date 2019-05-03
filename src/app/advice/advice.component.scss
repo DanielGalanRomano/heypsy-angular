@@ -22,16 +22,27 @@ $color-primary:#ef3a5d;
 }
 
 .virtual-viewport {
-  height: 400px;
+  height: 530px;
 }
 
 .virtual-item {
   padding: 1px, 0px;
 }
 
+.logo-img{
+  max-width: 100px;
+  max-height: 100px;
+}
+
 .info-container {
   padding: 8px 8px 8px 8px;
   word-break: break-all;
+}
+
+.time-label{
+  position: absolute;
+  bottom: 3px;
+  right: -4px;
 }
 
 .is-assisted{
@@ -53,7 +64,7 @@ $color-primary:#ef3a5d;
 }
 
 .time-label {
-  font-size: 12px;
+  font-size: 9px;
   padding-right: 8px;
 }
 

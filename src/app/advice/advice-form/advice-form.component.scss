@@ -9,5 +9,9 @@
 }
 
 .md-container{
-  flex: 1 1 auto !important;
+  min-height: 100%;
+}
+
+.logo-container{
+  max-height: 50px;
 }

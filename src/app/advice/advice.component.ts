@@ -97,7 +97,7 @@ export class AdviceComponent implements OnInit, OnDestroy {
     const dateReference = moment(problem.expirationDate, 'DD/MM/YYYY HH:mm:ss');
     const hoursDiff: number = now.diff(dateReference, 'hours');
 
-    return hoursDiff > 24;
+    return Math.abs(hoursDiff) > 24;
   }
 
   public goTo(problem: Problem) {
