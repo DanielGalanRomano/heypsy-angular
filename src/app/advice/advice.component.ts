@@ -49,7 +49,8 @@ export class AdviceComponent implements OnInit, OnDestroy {
           }))
         )
         .subscribe((problemList: Problem[]) => {
-          this.problemList = problemList.filter((item) => !this.check24Hours(item) && item.idRequester !== this.currentUser.id);
+          const newList = problemList.filter((item) => !this.check24Hours(item) && item.idRequester !== this.currentUser.id);
+          this.problemList = newList.filter((item) => this.getExpirationDinamyDate(item.expirationDate) !== '0 minutos');
           if (this.problemList.length > 0) {
             this.initCountdown();
           }
@@ -57,7 +58,8 @@ export class AdviceComponent implements OnInit, OnDestroy {
     } else {
       this.problemListSubscription$ = this.manager.getProblems$()
         .subscribe((problemList: Problem[]) => {
-          this.problemList = problemList.filter((item) => !this.check24Hours(item));
+          const newList = problemList.filter((item) => !this.check24Hours(item));
+          this.problemList = newList.filter((item) => this.getExpirationDinamyDate(item.expirationDate) !== '0 minutos');
           if (this.problemList.length > 0) {
             this.initCountdown();
           }
@@ -141,18 +143,30 @@ export class AdviceComponent implements OnInit, OnDestroy {
     this.setIntervalReference = setInterval(() => {
       this.problemList
         .forEach((item) => {
-          const expirationDate = moment(item.expirationDate, 'DD/MM/YYYY HH:mm:ss');
-          const now = moment();
-          const timeLeft = moment(expirationDate.diff(now)).add(3, 'hours');
-          const hours = expirationDate.diff(now, 'hours');
-          const minutes = expirationDate.diff(now, 'minutes');
-          const formatted = timeLeft.format('HH:mm:ss');
-          const hoursDiff: number = expirationDate.diff(moment(), 'hours');
-          item.expirationValue = hoursDiff * 100 / 24;
-          item.expirationDinamyDate = hours > 1 ? `${hours} horas` : minutes > 0 ? `${minutes} minutos` : `${0} minutos`;
+          item.expirationValue = this.getExpirationValue(item.expirationDate) * 100 / 24;
+          item.expirationDinamyDate = this.getExpirationDinamyDate(item.expirationDate);
         });
     },
       1000);
+  }
+
+  /**
+   * Return de expiration value.
+   */
+  public getExpirationValue(exDate): number {
+    const expirationDate = moment(exDate, 'DD/MM/YYYY HH:mm:ss');
+    const hoursDiff: number = expirationDate.diff(moment(), 'hours');
+    return hoursDiff;
+  }
+
+  /**
+   * Return de sxpiration Dinmany date.
+   */
+  public getExpirationDinamyDate(exDate) {
+    const expirationDate = moment(exDate, 'DD/MM/YYYY HH:mm:ss');
+    const hours = expirationDate.diff(moment(), 'hours');
+    const minutes = expirationDate.diff(moment(), 'minutes');
+    return hours > 1 ? `${hours} horas` : minutes > 0 ? `${minutes} minutos` : `${0} minutos`;
   }
 
   /**
