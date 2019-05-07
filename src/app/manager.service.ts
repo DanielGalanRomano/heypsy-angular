@@ -30,9 +30,12 @@ export class ManagerService {
     private notificationsService: NotificationsService) {
     this.getUserData();
     this.getCurrentProblem();
-
-    if (this.hasRequestInProcess() && !this.checkValidationHours()) {
+    const hasRequestInProcess = this.hasRequestInProcess();
+    const checkValidationHours = this.checkValidationHours();
+    if (hasRequestInProcess && !checkValidationHours) {
       this.deleteUserData();
+      this.getUserData();
+      this.getCurrentProblem();
     }
   }
 
@@ -152,6 +155,14 @@ export class ManagerService {
   }
 
   /**
+   * Delete a specific problem.
+   */
+  public deleteProblem(id: string) {
+    this.db.doc(`problems/${id}`)
+      .delete();
+  }
+
+  /**
    * Save user data.
    */
   public saveProblem(newProblem: Problem) {
@@ -203,6 +214,7 @@ export class ManagerService {
    */
   private deleteUserData(): void {
     localStorage.setItem('User', null);
+    localStorage.setItem('Problem', null);
   }
 
   /**
@@ -210,7 +222,7 @@ export class ManagerService {
    */
   public hasRequestInProcess() {
 
-    return this.currentProblem !== null && this.currentProblem !== undefined && this.checkValidationHours();
+    return this.currentProblem !== null && this.currentProblem !== undefined;
   }
 
   /**
@@ -221,8 +233,6 @@ export class ManagerService {
     if (this.currentProblem !== null && this.currentProblem.scheduleDate !== undefined) {
       const now = moment().minutes(0).seconds(0);
       const dateToCompare = moment(this.currentProblem.scheduleDate, 'DD/MM/YYYY HH:mm:ss');
-
-      // const dateToCompare = moment(this.currentProblem.scheduleDate).minutes(0).seconds(0);
       diff = now.diff(dateToCompare, 'hours');
     }
 

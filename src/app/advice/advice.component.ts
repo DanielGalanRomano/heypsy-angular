@@ -28,7 +28,6 @@ export class AdviceComponent implements OnInit, OnDestroy {
   private problemListSubscription$: Subscription = null;
   private getProblemById$: Subscription = null;
   public answersCount: number = 0;
-
   private setIntervalReference = null;
 
   constructor(
@@ -49,6 +48,7 @@ export class AdviceComponent implements OnInit, OnDestroy {
           }))
         )
         .subscribe((problemList: Problem[]) => {
+          this.removeAllProblems(problemList);
           const newList = problemList.filter((item) => !this.check24Hours(item) && item.idRequester !== this.currentUser.id);
           this.problemList = newList.filter((item) => this.getExpirationDinamyDate(item.expirationDate) !== '0 minutos');
           if (this.problemList.length > 0) {
@@ -58,6 +58,7 @@ export class AdviceComponent implements OnInit, OnDestroy {
     } else {
       this.problemListSubscription$ = this.manager.getProblems$()
         .subscribe((problemList: Problem[]) => {
+          this.removeAllProblems(problemList);
           const newList = problemList.filter((item) => !this.check24Hours(item));
           this.problemList = newList.filter((item) => this.getExpirationDinamyDate(item.expirationDate) !== '0 minutos');
           if (this.problemList.length > 0) {
@@ -182,5 +183,32 @@ export class AdviceComponent implements OnInit, OnDestroy {
   public getTextProblem(message: string) {
     const messageFormated: string = message.length > 100 ? `${message.slice(0, 97)}...` : message;
     return messageFormated;
+  }
+
+  /**
+   * Remove all problems with 24hrs.
+   */
+  private removeAllProblems(problemList: Problem[]) {
+    problemList
+      .forEach((item) => {
+        const isValid: boolean = this.checkValidationHours(item.scheduleDate);
+        if (!isValid) {
+          this.manager.deleteProblem(item.id);
+        }
+      });
+  }
+
+  /**
+   * Check validation hours.
+   */
+  private checkValidationHours(scheduleDate: string): boolean {
+    let diff = 0;
+    if (this.currentProblem !== null && scheduleDate !== undefined) {
+      const now = moment().minutes(0).seconds(0);
+      const dateToCompare = moment(scheduleDate, 'DD/MM/YYYY HH:mm:ss');
+      diff = now.diff(dateToCompare, 'hours');
+    }
+
+    return diff < 24;
   }
 }
